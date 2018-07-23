@@ -22,3 +22,6 @@ Snuttle project for Genetic Algorithm based on Xiang's papers
 5. Data Generator
 >정류장 데이터(정류장 위치, 정류장 사이의 거리 등)와 수요 데이터(언제 어디에서 타고, 언제 어디에서 내리는지)를 랜덤하게 생성한다.
 >그리고 GA operator에게 넘겨줘서 최적의 solution을 도출하게 한다.
+
+6. Simulator
+>위의 모든 클래스를 합쳐 컨트롤한다.
