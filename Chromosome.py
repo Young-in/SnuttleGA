@@ -6,3 +6,9 @@ class Chromosome:
 
     def __str__(self):
         pass
+
+    def mutation(self) :
+        pass
+
+    def crossover(self, chromo):
+        pass

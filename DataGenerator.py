@@ -10,9 +10,29 @@ class DataGenerator:
     # T : the maximum time of the simulation
     def __init__(self, n = 1000, m = 20, T = 1440):
         self.n = n
-        self.requests = [(random.randrange(T), random.randrange(m)+1, random.randrange(T), random.randrange(m)+1) for i in range(self.n)]
+        self.requests = []
+        for i in range(self.n) :
+            sta0 = sta1 = random.randrange(m)+1
+            while sta0 == sta1 :
+                sta1 = random.randrange(m)+1
+            t0 = t1 = random.randrange(T)
+            while t0 == t1 :
+                t1 = random.randrange(T)
+            if(t1 < t0) :
+                temp = t0
+                t0 = t1
+                t1 = temp
+            self.requests.append((t0, sta0, t1, sta1))
+        # To ensure two stations, times are different
+
         self.m = m
-        self.stations = [(random.random()*100, random.random()*100) for i in range(self.m)]
+        self.stations = []
+        for j in range(self.m) :
+            sta = (random.random()*100, random.random()*100)
+            while sta in self.stations :
+                sta = (random.random() * 100, random.random() * 100)
+            self.stations.append(sta)
+        # To ensure all stations are different
         pass
 
     def __str__(self):
