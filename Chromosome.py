@@ -18,9 +18,7 @@ class Chromosome:
                 k = random.randrange(j,len(trips[i])+1)
                 trips[i] = trips[i][:k] + [-trips[i][j-1]] + trips[i][k:]
         
-        return trips
-
-
+        return Chromosome(trips)
 
     # trips : an array of an array of requests in order of visits (positive value: ride, negative value: drop off)
     # 하나의 유전자가 여러대의 셔틀의 경로를 모두 나타내고 있어야 될거 같아서 trip 보단 trips로 이차원 배열을 가지고 있는게 맞는거 같다
@@ -28,10 +26,12 @@ class Chromosome:
     # crossover는 두 유전자에서 각 셔틀이 어느 유전자의 trip을 선택할지 확률적으로 결정하면 될거 같다(물론 requests가 겹치지 않도록 후처리도 해야되고)
     def __init__(self, trips):
         self.trips = trips
-        pass
 
     def __str__(self):
-        pass
+        ret = ""
+        for idx, trip in enumerate(self.trips):
+            ret += "Shuttle {i}: {t}\n".format(i = idx, t = trip)
+        return ret
 
     def mutation(self):
         pass

@@ -10,5 +10,5 @@ def main():
     pass
 
 if __name__ == "__main__": # execute when python Simulator.py executed
-    # main()
+    main()
     print(Chromosome.generateRandomly(10,3))

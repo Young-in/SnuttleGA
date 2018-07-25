@@ -45,11 +45,11 @@ class DataGenerator:
 
     def __str__(self):
         ret = ""
-        ret += "The number of requests : "+str(self.n)+"\n"
-        for request in self.requests: ret += str(request)+"\n"
+        ret += "The number of requests : {n}\n".format(n = self.n)
+        for request in self.requests: ret += "{r}\n".format(r = request)
         ret += "------------------------------------\n"
-        ret += "The number of stations : "+str(self.m)+"\n"
-        for coord in self.stations: ret += str(coord)+"\n"
+        ret += "The number of stations : {m}\n".format(m = self.m)
+        for coord in self.stations: ret += "{c}\n".format(c = coord)
         ret += "------------------------------------\n"
 
         return ret
