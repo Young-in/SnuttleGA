@@ -1,5 +1,6 @@
 from DataGenerator import DataGenerator
 from Visualization import Visualization
+from Chromosome import Chromosome
 
 def main():
     DG = DataGenerator(n = 50, m = 10)
@@ -9,4 +10,5 @@ def main():
     pass
 
 if __name__ == "__main__": # execute when python Simulator.py executed
-    main()
+    # main()
+    print(Chromosome.generateRandomly(10,3))
