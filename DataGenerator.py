@@ -7,7 +7,7 @@ class DataGenerator:
     # n : the number of requests
     # requests : locations and time windows of requests [tuple of 4 positive integers(timeS, stationS, timeD, stationD)]
     # m : the number of stations
-    # stations : locations of stations [tuple of 2 real numbers(x, y)]
+    # stations : locations of stations [tuple of 2 real numbers(x, y)] == map info
     # T : the maximum time of the simulation
     # dists : matrix which has the distance info
     def __init__(self, n = 1000, m = 20, T = 1440):
