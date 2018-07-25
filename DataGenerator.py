@@ -9,6 +9,7 @@ class DataGenerator:
     # m : the number of stations
     # stations : locations of stations [tuple of 2 real numbers(x, y)]
     # T : the maximum time of the simulation
+    # dists : matrix which has the distance info
     def __init__(self, n = 1000, m = 20, T = 1440):
         self.m = m
         self.stations = []
@@ -18,27 +19,17 @@ class DataGenerator:
                 sta = (random.random() * 100, random.random() * 100)
             self.stations.append(sta)
         # To ensure all stations are different
+        self.dists = self.getDists()
         
         self.n = n
         self.requests = []
         for i in range(self.n) :
-            # sta0 = sta1 = random.randrange(m)+1
-            # while sta0 == sta1 :
-            #     sta1 = random.randrange(m)+1
-            # t0 = t1 = random.randrange(T)
-            # while t0 == t1 :
-            #     t1 = random.randrange(T)
-            # if(t1 < t0) :
-            #     temp = t0
-            #     t0 = t1
-            #     t1 = temp
-
             # new version without using loop
-            sta0 = random.randrange(m)+1
-            sta1 = (sta0 + random.randrange(m-1)) % m + 1
+            sta0 = random.randrange(1, m+1)
+            sta1 = (sta0 + random.randrange(1, m)) % m
             t0 = random.randrange(T)
             t1 = (t0 + random.randrange(T-1) + 1) % T
-            if t1 < t0: t0, t1 = t1, t0
+            if t1 < t0 : t0, t1 = t1, t0
             self.requests.append((t0, sta0, t1, sta1))
         # To ensure two stations, times are different
         pass
@@ -54,5 +45,17 @@ class DataGenerator:
 
         return ret
 
+    def getDists(self):
+        dists = []
+        n = len(self.stations) # number of sta
+        for i in range(n) :
+            for j in range(i, n) :
+                d = self.getDistance(i, j)
+                dists[i][j] = d
+                dists[j][i] = d
+        return dists
+
+
     def getDistance(self, x, y): # get euclidean distance between station x and station y
-        return math.sqrt((self.stations[x][0]-self.stations[y][0])**2+(self.stations[x][1]-self.stations[y][1])**2)
+        return math.sqrt((self.stations[x][0]-self.stations[y][0])**2
+                         +(self.stations[x][1]-self.stations[y][1])**2)
