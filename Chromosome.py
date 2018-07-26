@@ -35,9 +35,6 @@ class Chromosome:
             ret += "Shuttle {i}: {t}\n".format(i = idx, t = trip)
         return ret
 
-    def setDists(self, dist):
-        self.dists = dist
-
     def mutation(self):
         m = len(self.trips) # the number of shuttles
 
@@ -61,15 +58,6 @@ class Chromosome:
         # over process
 
         pass
-
-    def getCost(self):
-        cost = 0
-        for trip in self.trips :
-            l = len(trip)
-            for i in l-1 :
-                cost += self.dists[trip[i]][trip[i+1]]
-        return cost
-
 
 def inst1rem1(trip1, trip2) :
     l1 = len(trip1)

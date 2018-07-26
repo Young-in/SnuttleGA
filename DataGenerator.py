@@ -59,3 +59,12 @@ class DataGenerator:
     def getDistance(self, x, y): # get euclidean distance between station x and station y
         return math.sqrt((self.stations[x][0]-self.stations[y][0])**2
                          +(self.stations[x][1]-self.stations[y][1])**2)
+
+    def getCost(self, chromo):
+        cost = 0
+        for trip in chromo.trips :
+            l = len(trip)
+            for i in l-1 :
+                cost += self.dists[trip[i]][trip[i+1]]
+        return cost
+    # get the chomosome's cost
