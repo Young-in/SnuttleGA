@@ -35,6 +35,16 @@ class Chromosome:
             ret += "Shuttle {i}: {t}\n".format(i = idx, t = trip)
         return ret
 
+    def otos(self, requests):
+        # One Trip One Service
+        trips = []
+        return Chromosome(trips)
+
+    def cfss(self, requests):
+        # Cluster First Sweep Second
+        trips = []
+        return Chromosome(trips)
+
     def mutation(self):
         m = len(self.trips) # the number of shuttles
 
