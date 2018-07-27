@@ -1,5 +1,5 @@
-import Chromosome
-import Pool
+from Chromosome import Chromosome
+from Pool import Pool
 import random
 import math
 
@@ -93,8 +93,8 @@ class DataGenerator:
             else:
                 trips[v].extend([(reqn+1), -(reqn+1)])
                 lasttime[v] = request[2]
-        print(lasttime)
-        print(trips)
+        # print(lasttime)
+        # print(trips)
 
-        pass
+        return Chromosome(trips)
     # get the chomosome's cost
