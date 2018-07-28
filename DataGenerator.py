@@ -64,11 +64,18 @@ class DataGenerator:
                          +(self.stations[x][1]-self.stations[y][1])**2)
 
     def getCost(self, chromo): # ## need to change this function: trip has a request number not a station number
-        cost = 0
+        COST_SHUTTLE = 1000
+        cost = COST_SHUTTLE * len(chromo.trips) 
         for trip in chromo.trips :
             l = len(trip)
-            for i in l-1 :
-                cost += self.dists[trip[i]][trip[i+1]]
+            for i in range(l-1) :
+                if trip[i]>0: staS = self.requests[trip[i]-1][1]
+                else: staS = self.requests[-trip[i]-1][3]
+
+                if trip[i+1]>0: staD = self.requests[trip[i+1]-1][1]
+                else: staD = self.requests[-trip[i+1]-1][3]
+
+                cost += self.dists[staS][staD]
         return cost
 
     def generateOTOC(self):

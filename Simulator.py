@@ -7,7 +7,9 @@ def main():
     print(DG)
     V = Visualization()
     V.drawPoints([coord[0] for coord in DG.stations], [coord[1] for coord in DG.stations], 'stations')
-    print(DG.generateOTOC())
+    otoc = DG.generateOTOC()
+    print(otoc)
+    print(DG.getCost(otoc))
     pass
 
 if __name__ == "__main__": # execute when python Simulator.py executed
