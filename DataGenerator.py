@@ -28,9 +28,14 @@ class DataGenerator:
             sta0 = random.randrange(m)
             sta1 = (sta0 + random.randrange(1, m)) % m
             # change index 1~m to 0~m-1 for easy access of dist[][]
-            t0 = random.randrange(T)
-            t1 = (t0 + random.randrange(T-1) + 1) % T
-            if t1 < t0 : t0, t1 = t1, t0
+            
+            # t0 = random.randrange(T)
+            # t1 = (t0 + random.randrange(T-1) + 1) % T
+            # if t1 < t0 : t0, t1 = t1, t0
+
+            d = self.dists[sta0][sta1] * (1 + random.random()) # make time interval random value between distance and 2*distance
+            t0 = random.randrange(math.floor(T - d))
+            t1 = t0 + d
             self.requests.append((t0, sta0, t1, sta1))
         # To ensure two stations, times are different
 
