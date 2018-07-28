@@ -54,7 +54,7 @@ class Chromosome:
     def mutation(self):
         m = len(self.trips) # the number of shuttles
 
-        while i in range(m) : # 반복 횟수는 추후에 수정
+        for i in range(m) : # 반복 횟수는 추후에 수정
             i = random.randrange(1, m+1)
             j = (i+random.randrange(1, m))%m
 
