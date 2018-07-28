@@ -80,8 +80,8 @@ class DataGenerator:
                 cost += self.dists[staS][staD]
         return cost
 
-    def generateOTOC(self):
-        requests = list(enumerate(self.requests[:]))
+    def generateOTOC(self, Requests):
+        requests = list(enumerate(Requests[:]))
         requests.sort(key = lambda request : request[1][2])
         # sort by timeD
 
@@ -109,16 +109,29 @@ class DataGenerator:
         return Chromosome(trips)
     # get the chomosome's cost
 
-    def generateCFSS(self):
+    def generateCFSS(self, Requests):
+        trips = []
         # Cluster First
-        stations = list(enumerate(cluster(self.stations, self.m/5)))
+        areas = list(enumerate(SubAreas(self.stations, self.m/5)))
+
+        requestss = [] # [requests in area0, requests in area1, ... ]
+
+        # Sweep Second
+        for reqs in requestss :
+            # ensure the timing issue
+            reqs.sort(key = lambda req : req[2])
+            # sort by timeD
 
 
-        requests = list(enumerate(self.requests[:]))
+        return trips
 
 def sub_areas(stations, k, min_x, max_x, min_y, max_y):
     if not stations: return
-    if len(stations) <= k: return stations;
+    if len(stations) <= k:
+        stas = []
+        for sta in stations :
+            stas.append(sta[2])
+        return stas # names of stations
 
     a0 = []; a1 = []; a2 = []; a3 = []
     mid_x = (min_x + max_x) / 2
@@ -140,6 +153,6 @@ def sub_areas(stations, k, min_x, max_x, min_y, max_y):
            [sub_areas(a2, k, mid_x, max_x, min_y, mid_y)] + \
            [sub_areas(a3, k, mid_x, max_x, mid_y, max_y)]
 
-def cluster(stations, k):
+def SubAreas(stations, k):
     # k the max number of sta in an area
     return sub_areas(stations, k, 0, 100, 0, 100)

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3a64976-d56d-43db-8655-eebc1d846688" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Chromosome.py" beforeDir="false" afterPath="$PROJECT_DIR$/Chromosome.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DataGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataGenerator.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -51,8 +50,8 @@
       <file leaf-file-name="DataGenerator.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DataGenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1665">
-              <caret line="114" column="8" lean-forward="true" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
+            <state relative-caret-position="518">
+              <caret line="116" column="67" selection-start-line="116" selection-start-column="67" selection-end-line="116" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -497,8 +496,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DataGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1665">
-          <caret line="114" column="8" lean-forward="true" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
+        <state relative-caret-position="518">
+          <caret line="116" column="67" selection-start-line="116" selection-start-column="67" selection-end-line="116" selection-end-column="67" />
         </state>
       </provider>
     </entry>
