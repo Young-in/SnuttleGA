@@ -7,16 +7,16 @@ class DataGenerator:
     # n : the number of requests
     # requests : locations and time windows of requests [tuple of 4 positive integers(timeS, stationS, timeD, stationD)]
     # m : the number of stations
-    # stations : locations of stations [tuple of 2 real numbers(x, y)] == map info
+    # stations : locations of stations [tuple of 2 real numbers and name (x, y, name)] == map info
     # T : the maximum time of the simulation
     # dists : matrix which has the distance info
     def __init__(self, n = 1000, m = 20, T = 1440):
         self.m = m
         self.stations = []
         for j in range(self.m) :
-            sta = (random.random()*100, random.random()*100)
+            sta = (random.random()*100, random.random()*100, j)
             while sta in self.stations :
-                sta = (random.random() * 100, random.random() * 100)
+                sta = (random.random() * 100, random.random() * 100, j)
             self.stations.append(sta)
         # To ensure all stations are different
         self.dists = self.getDists()
@@ -28,10 +28,6 @@ class DataGenerator:
             sta0 = random.randrange(m)
             sta1 = (sta0 + random.randrange(1, m)) % m
             # change index 1~m to 0~m-1 for easy access of dist[][]
-            
-            # t0 = random.randrange(T)
-            # t1 = (t0 + random.randrange(T-1) + 1) % T
-            # if t1 < t0 : t0, t1 = t1, t0
 
             d = self.dists[sta0][sta1] * (1 + random.random()) # make time interval random value between distance and 2*distance
             t0 = random.randrange(math.floor(T - d))
@@ -68,7 +64,8 @@ class DataGenerator:
         return math.sqrt((self.stations[x][0]-self.stations[y][0])**2
                          +(self.stations[x][1]-self.stations[y][1])**2)
 
-    def getCost(self, chromo): # ## need to change this function: trip has a request number not a station number
+    def getCost(self, chromo):
+        # need to change this function: trip has a request number not a station number
         COST_SHUTTLE = 1000
         cost = COST_SHUTTLE * len(chromo.trips) 
         for trip in chromo.trips :
@@ -86,6 +83,7 @@ class DataGenerator:
     def generateOTOC(self):
         requests = list(enumerate(self.requests[:]))
         requests.sort(key = lambda request : request[1][2])
+        # sort by timeD
 
         trips = []
         lasttime = []
@@ -110,3 +108,38 @@ class DataGenerator:
 
         return Chromosome(trips)
     # get the chomosome's cost
+
+    def generateCFSS(self):
+        # Cluster First
+        stations = list(enumerate(cluster(self.stations, self.m/5)))
+
+
+        requests = list(enumerate(self.requests[:]))
+
+def sub_areas(stations, k, min_x, max_x, min_y, max_y):
+    if not stations: return
+    if len(stations) <= k: return stations;
+
+    a0 = []; a1 = []; a2 = []; a3 = []
+    mid_x = (min_x + max_x) / 2
+    mid_y = (min_y + max_y) / 2
+
+    for sta in stations:
+        if sta[0] < mid_x:
+            if sta[1] < mid_y:
+                a0.append(sta)
+            else:
+                a1.append(sta)
+        else:
+            if sta[1] < mid_y:
+                a2.append(sta)
+            else:
+                a3.append(sta)
+    return [sub_areas(a0, k, min_x, mid_x, min_y, mid_y)] + \
+           [sub_areas(a1, k, min_x, mid_x, mid_y, max_y)] + \
+           [sub_areas(a2, k, mid_x, max_x, min_y, mid_y)] + \
+           [sub_areas(a3, k, mid_x, max_x, mid_y, max_y)]
+
+def cluster(stations, k):
+    # k the max number of sta in an area
+    return sub_areas(stations, k, 0, 100, 0, 100)
