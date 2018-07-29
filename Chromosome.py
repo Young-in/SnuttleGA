@@ -64,8 +64,3 @@ class Chromosome:
                 rettrips.append(tr)
         
         return Chromosome(rettrips)
-
-def inst1rem1(trip1, trip2) :
-    l1 = len(trip1)
-    l2 = len(trip2)
-    # insert 1 remove 1

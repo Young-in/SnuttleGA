@@ -7,10 +7,18 @@ def main():
     print(DG)
     V = Visualization()
     V.drawPoints([coord[0] for coord in DG.stations], [coord[1] for coord in DG.stations], 'stations')
+    print("generating otoc...")
     otoc = DG.generateOTOC(DG.requests)
+    print("generating cfss...")
+    cfss = DG.generateCFSS(DG.requests)
     gr = Chromosome.generateRandomly(50, 10)
+
     print(otoc)
     print(DG.getCost(otoc))
+
+    print(cfss)
+    print(DG.getCost(cfss))
+
 
     print(gr)
     print(DG.getCost(gr))

@@ -107,52 +107,87 @@ class DataGenerator:
         # print(trips)
 
         return Chromosome(trips)
-    # get the chomosome's cost
 
     def generateCFSS(self, Requests):
+        requests = list(enumerate(Requests[:]))
+        requests.sort(key=lambda request: request[1][2])
         trips = []
-        # Cluster First
-        areas = list(enumerate(SubAreas(self.stations, self.m/5)))
 
-        requestss = [] # [requests in area0, requests in area1, ... ]
+        # Cluster First
+        routes = []
+        self.L = makeL(Requests) # time ordered trip containing all requests
+        self.CT = self.conflictTable(Requests) # == C , index = Rn -1 (start with 0)
+
+        for i in self.L :
+            if i == self.L[0] : routes.append([i])
+            elif i > 0 :
+                l = len(routes); j =0
+                while j < l :
+                    route = routes[j]
+                    mutab =True # Mutually available
+                    for r in route :
+                        if self.CT[i-1][r-1] < 0 : mutab = False
+                    if mutab :
+                        route.append(i)
+                        break
+                    else : j+= 1
+                if j == l : routes.append([i])
 
         # Sweep Second
-        for reqs in requestss :
-            # ensure the timing issue
-            reqs.sort(key = lambda req : req[1])
-            # sort by timeS because areas's norm is staS
+        
 
+        return Chromosome(trips)
 
-        return trips
+    def conflictTable(self, Requests):
+        l = len(Requests)
+        ct = [] # conflict table
+        # -1 : conflict // 0 : i == j // 1 : available
+        for i in range(l) :
+            ct.append([])
+            for j in range(l) :
+                if i == j : ct[i].append(0)
+                else :
+                    trip = subL(self.L, [i+1, j+1])
+                    if self.available(trip, Requests) : ct[i].append(1)
+                    else : ct[i].append(-1)
+        return ct
 
-def sub_areas(stations, k, min_x, max_x, min_y, max_y):
-    if not stations: return
-    if len(stations) <= k:
+    def available(self, trip, Requests):
+        ts = []
         stas = []
-        for sta in stations :
-            stas.append(sta[2])
-        return stas # names of stations
+        l = 0
+        for i in trip :
+            ia = abs(i)
+            ts.append(Requests[ia-1][(ia-i)/ia])
+            stas.append(Requests[ia-1][((ia-i)/ia)+1])
+            l += 1
 
-    a0 = []; a1 = []; a2 = []; a3 = []
-    mid_x = (min_x + max_x) / 2
-    mid_y = (min_y + max_y) / 2
+        ats = [ts[0]]  # arrival times
+        i = 0
+        while i < l-1 :
+            d = self.dists[stas[i]][stas[i+1]]
+            at = ats[i]+d # arrival time
 
-    for sta in stations:
-        if sta[0] < mid_x:
-            if sta[1] < mid_y:
-                a0.append(sta)
-            else:
-                a1.append(sta)
-        else:
-            if sta[1] < mid_y:
-                a2.append(sta)
-            else:
-                a3.append(sta)
-    return [sub_areas(a0, k, min_x, mid_x, min_y, mid_y)] + \
-           [sub_areas(a1, k, min_x, mid_x, mid_y, max_y)] + \
-           [sub_areas(a2, k, mid_x, max_x, min_y, mid_y)] + \
-           [sub_areas(a3, k, mid_x, max_x, mid_y, max_y)]
+            if trip[i+1] < 0 : # drop off
+                if ts[i+1] < at : return False # arrival late
+                else : ats.append(at)
 
-def SubAreas(stations, k):
-    # k the max number of sta in an area
-    return sub_areas(stations, k, 0, 100, 0, 100)
+            if trip[i+1] > 0 : # pick up
+                if ts[i+1] > at : ats.append(ts[i+1]) # arrival earlier
+                # can calculate slack time at here
+                else : ats.append(at)
+            i += 1
+
+        return True
+
+def makeL(Requests) :
+    l = len(Requests)
+    L = list(range(1, l+1)) + list(range(-l, 0))
+    L.sort(key=lambda i : Requests[abs(i)-1][(abs(i)-i)/abs(i)])
+    return L
+
+def subL(L, lst) :
+    trip = []
+    for k in L :
+        if abs(k) in lst : trip.append(k)
+    return trip
