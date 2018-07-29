@@ -35,21 +35,38 @@ def main():
     print("\nOTOC + GR")
     print(cr)
     print(DG.getCost(cr))
+    print(DG.chromoAble(cr, DG.requests))
 
     print("\nmutation")
     cr.mutation(1, 2)
     print(cr)
     print(DG.getCost(cr))
+    print(DG.chromoAble(cr, DG.requests))
 
     crr = cfss.crossover(otoc)
     print("\nCFSS + OTOC")
     print(crr)
     print(DG.getCost(crr))
+    print(DG.chromoAble(crr, DG.requests))
 
     print("\nmutation")
     crr.mutation(1, 2)
     print(crr)
     print(DG.getCost(crr))
+    print(DG.chromoAble(crr, DG.requests))
+
+    cfsss = DG.generateCFSS(DG.requests)
+    crs = cfss.crossover(cfsss)
+    print("\nCFSS + CFSS")
+    print(crs)
+    print(DG.getCost(crs))
+    print(DG.chromoAble(crs, DG.requests))
+
+    print("\nmutation")
+    crs.mutation(1, 2)
+    print(crs)
+    print(DG.getCost(crs))
+    print(DG.chromoAble(crs, DG.requests))
     pass
 
 
