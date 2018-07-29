@@ -121,6 +121,7 @@ class DataGenerator:
         for i in self.L :
             if i == self.L[0] : routes.append([i])
             elif i > 0 :
+                random.shuffle(routes)
                 l = len(routes); j =0
                 while j < l :
                     route = routes[j]
@@ -134,9 +135,20 @@ class DataGenerator:
                 if j == l : routes.append([i])
 
         # Sweep Second
-        
+        for route in routes :
+            rtrips = self.splitRoute(route, Requests)
+            trips += rtrips
 
         return Chromosome(trips)
+
+    def splitRoute(self, route, Requests):
+        tripr = subL(self.L, route)
+        if len(route) <= 2 : return [tripr]
+        elif self.available(tripr, Requests) : return [tripr]
+        else :
+            routeO = route[::2]
+            routeE = route[1::2]
+            return self.splitRoute(routeO, Requests) + self.splitRoute(routeE, Requests)
 
     def conflictTable(self, Requests):
         l = len(Requests)

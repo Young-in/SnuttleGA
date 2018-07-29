@@ -13,10 +13,14 @@ def main():
     cfss = DG.generateCFSS(DG.requests)
     gr = Chromosome.generateRandomly(50, 10)
 
+    print("\nOTOC Result")
     print(otoc)
+    print("OTOC Cost")
     print(DG.getCost(otoc))
 
+    print("\nCFSS Result")
     print(cfss)
+    print("CFSS Cost")
     print(DG.getCost(cfss))
 
 
