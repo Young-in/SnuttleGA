@@ -20,7 +20,8 @@ class Chromosome:
         
         return Chromosome(trips)
 
-    # trip : gean array of requests in order of visits (positive value: ride, negative value: drop off)
+    # trip : ge
+    # an array of requests in order of visits (positive value: ride, negative value: drop off)
     # trips : [trip1, trip2, trip3, .. tripm]
 
     def __init__(self, trips):

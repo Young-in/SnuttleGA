@@ -119,8 +119,8 @@ class DataGenerator:
         # Sweep Second
         for reqs in requestss :
             # ensure the timing issue
-            reqs.sort(key = lambda req : req[2])
-            # sort by timeD
+            reqs.sort(key = lambda req : req[1])
+            # sort by timeS because areas's norm is staS
 
 
         return trips
