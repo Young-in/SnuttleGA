@@ -90,19 +90,19 @@ class DataGenerator:
 
         for reqn, request in requests:
             v = -1
-            t = self.T
+            t = 0
             for i, time in enumerate(lasttime):
-                dist = self.dists[request[1]][request[3]]
-                if time + dist < request[0]:
-                    if t > time:
-                        v, t = i, time
+                dist = time[1][request[1]]
+                if time[0] + dist < request[0]:
+                    if t < time[0]:
+                        v, t = i, time[0]
                 
             if v==-1:
                 trips.append([(reqn+1), -(reqn+1)])
-                lasttime.append(request[2])
+                lasttime.append((request[2], self.dists[request[3]]))
             else:
                 trips[v].extend([(reqn+1), -(reqn+1)])
-                lasttime[v] = request[2]
+                lasttime[v] = (request[2], self.dists[request[3]])
         # print(lasttime)
         # print(trips)
 
@@ -170,8 +170,8 @@ class DataGenerator:
         l = 0
         for i in trip :
             ia = abs(i)
-            ts.append(Requests[ia-1][(ia-i)/ia])
-            stas.append(Requests[ia-1][((ia-i)/ia)+1])
+            ts.append(Requests[ia-1][math.floor((ia-i)/ia)])
+            stas.append(Requests[ia-1][math.floor((ia-i)/ia)+1])
             l += 1
 
         ats = [ts[0]]  # arrival times
@@ -202,7 +202,7 @@ class DataGenerator:
 def makeL(Requests) :
     l = len(Requests)
     L = list(range(1, l+1)) + list(range(-l, 0))
-    L.sort(key=lambda i : Requests[abs(i)-1][(abs(i)-i)/abs(i)])
+    L.sort(key=lambda i : Requests[abs(i)-1][math.floor((abs(i)-i)/abs(i))])
     return L
 
 def subL(L, lst) :
