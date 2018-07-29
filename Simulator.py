@@ -17,16 +17,19 @@ def main():
     print(otoc)
     print("OTOC Cost")
     print(DG.getCost(otoc))
+    print(DG.chromoAble(otoc, DG.requests))
 
     print("\nCFSS Initial Result")
     print(cfss)
     print("CFSS Cost")
     print(DG.getCost(cfss))
+    print(DG.chromoAble(cfss, DG.requests))
 
     print("\nGR Initial Result")
     print(gr)
     print("GR Cost")
     print(DG.getCost(gr))
+    print(DG.chromoAble(gr, DG.requests))
 
     cr = otoc.crossover(gr)
     print("\nOTOC + GR")

@@ -192,6 +192,13 @@ class DataGenerator:
 
         return True
 
+    def chromoAble(self, Chromo, Requests):
+        trips = Chromo.trips
+        for trip in trips :
+            if not self.available(trip, Requests) : return False
+        return True
+
+
 def makeL(Requests) :
     l = len(Requests)
     L = list(range(1, l+1)) + list(range(-l, 0))
