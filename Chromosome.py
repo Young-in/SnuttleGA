@@ -64,3 +64,7 @@ class Chromosome:
                 rettrips.append(tr)
         
         return Chromosome(rettrips)
+
+    def crossOver(self, chromo):
+        trips1 = self.trips
+        trips2 = self.trips
