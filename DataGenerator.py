@@ -170,8 +170,8 @@ class DataGenerator:
         l = 0
         for i in trip :
             ia = abs(i)
-            ts.append(Requests[ia-1][math.floor((ia-i)/ia)])
-            stas.append(Requests[ia-1][math.floor((ia-i)/ia)+1])
+            ts.append(Requests[ia-1][(ia-i)/ia])
+            stas.append(Requests[ia-1][((ia-i)/ia)+1])
             l += 1
 
         ats = [ts[0]]  # arrival times
@@ -202,7 +202,7 @@ class DataGenerator:
 def makeL(Requests) :
     l = len(Requests)
     L = list(range(1, l+1)) + list(range(-l, 0))
-    L.sort(key=lambda i : Requests[abs(i)-1][math.floor((abs(i)-i)/abs(i))])
+    L.sort(key=lambda i : Requests[abs(i)-1][(abs(i)-i)/abs(i)])
     return L
 
 def subL(L, lst) :
