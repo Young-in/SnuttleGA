@@ -13,28 +13,42 @@ def main():
     cfss = DG.generateCFSS(DG.requests)
     gr = Chromosome.generateRandomly(50, 10)
 
-    print("\nOTOC Result")
+    print("\nOTOC Initial Result")
     print(otoc)
     print("OTOC Cost")
     print(DG.getCost(otoc))
 
-    print("\nCFSS Result")
+    print("\nCFSS Initial Result")
     print(cfss)
     print("CFSS Cost")
     print(DG.getCost(cfss))
 
-
+    print("\nGR Initial Result")
     print(gr)
+    print("GR Cost")
     print(DG.getCost(gr))
 
     cr = otoc.crossover(gr)
+    print("\nOTOC + GR")
     print(cr)
     print(DG.getCost(cr))
 
-    cr.mutation(1,2)
+    print("\nmutation")
+    cr.mutation(1, 2)
     print(cr)
     print(DG.getCost(cr))
+
+    crr = cfss.crossover(otoc)
+    print("\nCFSS + OTOC")
+    print(crr)
+    print(DG.getCost(crr))
+
+    print("\nmutation")
+    crr.mutation(1, 2)
+    print(crr)
+    print(DG.getCost(crr))
     pass
+
 
 if __name__ == "__main__": # execute when python Simulator.py executed
     main()
