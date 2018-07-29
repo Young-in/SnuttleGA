@@ -33,7 +33,7 @@ class DataGenerator:
             t0 = random.randrange(math.floor(T - d))
             t1 = t0 + d
             self.requests.append((t0, sta0, t1, sta1))
-        # To ensure two stations, times are different
+            # To ensure two stations, times are different
 
         self.T = T
         pass
@@ -192,8 +192,8 @@ class DataGenerator:
 
         return True
 
-    def chromoAble(self, Chromo, Requests):
-        trips = Chromo.trips
+    def chromoAble(self, chromo, Requests):
+        trips = chromo.trips
         for trip in trips :
             if not self.available(trip, Requests) : return False
         return True
