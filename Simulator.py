@@ -7,9 +7,21 @@ def main():
     print(DG)
     V = Visualization()
     V.drawPoints([coord[0] for coord in DG.stations], [coord[1] for coord in DG.stations], 'stations')
-    otoc = DG.generateOTOC()
+    otoc = DG.generateOTOC(DG.requests)
+    gr = Chromosome.generateRandomly(50, 10)
     print(otoc)
     print(DG.getCost(otoc))
+
+    print(gr)
+    print(DG.getCost(gr))
+
+    cr = otoc.crossover(gr)
+    print(cr)
+    print(DG.getCost(cr))
+
+    cr.mutation(1,2)
+    print(cr)
+    print(DG.getCost(cr))
     pass
 
 if __name__ == "__main__": # execute when python Simulator.py executed

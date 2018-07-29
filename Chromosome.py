@@ -1,4 +1,5 @@
 import random
+import copy
 
 class Chromosome:
     @staticmethod
@@ -32,29 +33,36 @@ class Chromosome:
             ret += "Shuttle {i}: {t}\n".format(i = idx, t = trip)
         return ret
 
-    def mutation(self):
-        m = len(self.trips) # the number of shuttles
-
-        for i in range(m) : # 반복 횟수는 추후에 수정
-            i = random.randrange(1, m+1)
-            j = (i+random.randrange(1, m))%m
-
-            tripi = self.trips[i]
-            tripj = self.trips[j]
-
-            inst1rem1(tripi, tripj)
-            # 디른 mutation method 도 나중에 추가
+    def mutation(self, x, y): # exchange the position of x and y
+        for trip in self.trips:
+            for i in range(len(trip)):
+                if trip[i] == x:
+                    trip[i] = y
+                elif trip[i] == -x:
+                    trip[i] = -y
+                elif trip[i] == y:
+                    trip[i] = x
+                elif trip[i] == -y:
+                    trip[i] = -x
         pass
 
-    def crossover(self, chromo):
-        trips1 = self.trips
-        trips2 = chromo.trips
+    def crossover(self, chromo): # remain half trips1, eleminate them from trips2 and merge two
+        trips1 = copy.deepcopy(self.trips)
+        trips2 = copy.deepcopy(chromo.trips)
 
-        # cross process
+        rettrips = copy.deepcopy(trips1[:int((len(trips1)+1)/2)])
+        contained = set()
+        
+        for trip in rettrips:
+            for r in trip:
+                contained.add(r)
 
-        # over process
-
-        pass
+        for trip in trips2:
+            tr = list(filter(lambda r: r not in contained, trip))
+            if len(tr) > 0:
+                rettrips.append(tr)
+        
+        return Chromosome(rettrips)
 
 def inst1rem1(trip1, trip2) :
     l1 = len(trip1)
