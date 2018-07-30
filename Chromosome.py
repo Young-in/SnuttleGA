@@ -21,8 +21,7 @@ class Chromosome:
         
         return Chromosome(trips)
 
-    # trip : ge
-    # an array of requests in order of visits (positive value: ride, negative value: drop off)
+    # trip : an array of requests in order of visits (positive value: ride, negative value: drop off)
     # trips : [trip1, trip2, trip3, .. tripm]
 
     def __init__(self, trips):
@@ -66,5 +65,27 @@ class Chromosome:
         return Chromosome(rettrips)
 
     def crossOver(self, chromo):
-        trips1 = self.trips
-        trips2 = self.trips
+        trips = self.trips + chromo.trips
+        ntrips = []
+        rn = len(self.trips)/2 # number of requests
+        markTable = set(range(1, rn+1))
+
+        # search longest trip
+        for i in range(rn) :
+            i = i+1
+            if i in markTable : # not in ntrips
+                idx = searchLongest(i, trips)
+                ntrips.append(trips[idx])
+                markTable -= set(trips[idx])
+
+        return Chromosome(ntrips)
+
+def searchLongest(a, lsts) :
+    M = -1
+    i = 0
+    while i < len(lsts) :
+        if a in lsts[i] :
+            if M < 0 : M = i
+            elif len(lsts[i]) > len(lsts[M]) : M = i
+        i += 1
+    return M
