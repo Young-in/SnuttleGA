@@ -43,7 +43,7 @@ def main():
     print(DG.getCost(cr))
     print(DG.chromoAble(cr, DG.requests))
 
-    crr = cfss.crossover(otoc)
+    crr = cfss.crossOver(otoc)
     print("\nCFSS + OTOC")
     print(crr)
     print(DG.getCost(crr))

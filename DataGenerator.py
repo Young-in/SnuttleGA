@@ -194,8 +194,26 @@ class DataGenerator:
 
     def chromoAble(self, chromo, Requests):
         trips = chromo.trips
+        tripSet = []
         for trip in trips :
-            if not self.available(trip, Requests) : return False
+            if not self.available(trip, Requests) :
+                print("unavailable trip")
+                return False
+            tripSet += trip
+        for i in range(len(Requests)) :
+            i = i+1
+            if i not in tripSet :
+                print("there are no %d in trips" %i)
+                return False
+            if -i not in tripSet :
+                print("there are no %d in trips" % -i)
+                return False
+            if tripSet.count(i) != 1 :
+                print("there are more many %d in trips" % i)
+                return False
+            if tripSet.count(-i) != 1 :
+                print("there are more many %d in trips" % -i)
+                return False
         return True
 
 

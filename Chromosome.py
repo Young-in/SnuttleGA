@@ -67,16 +67,22 @@ class Chromosome:
     def crossOver(self, chromo):
         trips = self.trips + chromo.trips
         ntrips = []
-        rn = len(self.trips)/2 # number of requests
-        markTable = set(range(1, rn+1))
+        rn = 0 # number of requests
+        for trip in self.trips :
+            rn += len(trip)//2
+        markTable = []
 
         # search longest trip
         for i in range(rn) :
             i = i+1
-            if i in markTable : # not in ntrips
+            if i not in markTable : # not in ntrips
                 idx = searchLongest(i, trips)
-                ntrips.append(trips[idx])
-                markTable -= set(trips[idx])
+                trip = trips[idx][:]
+                for t in trips[idx] :
+                    if t in markTable :
+                        trip.remove(t)
+                ntrips.append(trip)
+                markTable = markTable + trip
 
         return Chromosome(ntrips)
 
