@@ -25,7 +25,7 @@ class RequestGenerator() :
             print("ERROR : Requests Type Unavailable")
         pass
 
-    def __set__(self):
+    def __str__(self):
         ret = ""
         ret += "The number of requests : {n}\n".format(n=self.n)
         for request in self.requests: ret += "{r}\n".format(r=request)

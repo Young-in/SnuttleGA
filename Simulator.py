@@ -7,6 +7,7 @@ from Chromosome import Chromosome
 def main():
     MAP = MapGenerator(m=10)
     Reqs = RequestGenerator(Map = MAP, typ = 'rand', n = 50)
+
     DG = DataGenerator(dists = MAP.dists, requests = Reqs.requests)
 
     print(MAP)

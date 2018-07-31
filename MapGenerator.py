@@ -35,6 +35,7 @@ class MapGenerator:
         return dists
 
 
-    def getDistance(self, x, y): # get euclidean distance between station x and station y
+    def getDistance(self, x, y):
+        # get euclidean distance between station x and station y
         return math.sqrt((self.stations[x][0]-self.stations[y][0])**2
                          +(self.stations[x][1]-self.stations[y][1])**2)
