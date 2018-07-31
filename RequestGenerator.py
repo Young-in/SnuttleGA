@@ -15,8 +15,8 @@ class RequestGenerator() :
         self.requests = []
         if(typ == 'rand') :
             self.requests = self.rand()
-        elif(typ == 'calm') :
-            self.request = self.calm()
+        elif(typ == 'camel') :
+            self.request = self.camel()
         elif(typ == 'exp') :
             self.request = self.exp()
         elif(typ == 'uni') :
@@ -48,7 +48,7 @@ class RequestGenerator() :
             # To ensure two stations, times are different
         return lst
 
-    def calm(self, t1=100, t2=200):
+    def camel(self, t1=100, t2=200):
         lst = []
         return lst
 
