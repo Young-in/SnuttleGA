@@ -18,7 +18,7 @@ def main():
     otoc = DG.generateOTOC()
     print("generating cfss...")
     cfss = DG.generateCFSS()
-    gr = Chromosome.generateRandomly(50, 10)
+    gr = DG.generateRAND()
 
     print("\nOTOC Initial Result")
     print(otoc)

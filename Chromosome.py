@@ -2,28 +2,8 @@ import random
 import copy
 
 class Chromosome:
-    @staticmethod
-    def generateRandomly(n, m): # n : the number of requests, m : the number of shuttles
-        requests = list(range(1,n+1))
-        random.shuffle(requests)
-        divs = random.sample(range(1,n+1), m)
-        divs.sort()
-
-        trips = [requests[divs[-1]:]+requests[:divs[0]]]
-        for i in range(1,m):
-            trips.append(requests[divs[i-1]:divs[i]])
-        # print(trips)
-
-        for i in range(m):
-            for j in range(len(trips[i]),0,-1):
-                k = random.randrange(j,len(trips[i])+1)
-                trips[i] = trips[i][:k] + [-trips[i][j-1]] + trips[i][k:]
-        
-        return Chromosome(trips)
-
     # trip : an array of requests in order of visits (positive value: ride, negative value: drop off)
     # trips : [trip1, trip2, trip3, .. tripm]
-
     def __init__(self, trips):
         self.trips = trips
 
@@ -81,6 +61,7 @@ class Chromosome:
                 for t in trips[idx] :
                     if t in markTable :
                         trip.remove(t)
+
                 ntrips.append(trip)
                 markTable = markTable + trip
 

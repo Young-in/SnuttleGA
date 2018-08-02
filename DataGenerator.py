@@ -6,6 +6,8 @@ class DataGenerator:
     def __init__(self, dists, requests):
         self.dists = dists
         self.requests = requests
+        self.m = len(dists) # number of stations
+        self.n = len(requests)
 
         self.L = self.makeL() # time ordered trip containing all requests
         self.CT = self.conflictTable() # == C , index = Rn -1 (start with 0)
@@ -110,6 +112,26 @@ class DataGenerator:
                 cost += self.dists[staS][staD]
         return cost
 
+    def generateRAND(self):
+        m, n = self.m, self.n
+        requests = list(range(1,n+1))
+        random.shuffle(requests)
+        divs = random.sample(range(1,n+1), m)
+        divs.sort()
+
+        trips = [requests[divs[-1]:]+requests[:divs[0]]]
+        for i in range(1,m):
+            trips.append(requests[divs[i-1]:divs[i]])
+        # print(trips)
+
+        for i in range(m):
+            for j in range(len(trips[i]),0,-1):
+                k = random.randrange(j,len(trips[i])+1)
+                trips[i] = trips[i][:k] + [-trips[i][j-1]] + trips[i][k:]
+
+        return Chromosome(trips)
+
+
     def generateOTOC(self):
         requests = list(enumerate(self.requests[:]))
         requests.sort(key = lambda request : request[1][2])
@@ -133,8 +155,6 @@ class DataGenerator:
             else:
                 trips[v].extend([(reqn+1), -(reqn+1)])
                 lasttime[v] = (request[2], self.dists[request[3]])
-        # print(lasttime)
-        # print(trips)
 
         return Chromosome(trips)
 
