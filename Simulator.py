@@ -6,7 +6,7 @@ from Chromosome import Chromosome
 
 def main():
     MAP = MapGenerator(m=10)
-    Reqs = RequestGenerator(Map = MAP, typ = 'rand', n = 50)
+    Reqs = RequestGenerator(Map = MAP, typ = 'AR', n = 50)
 
     DG = DataGenerator(dists = MAP.dists, requests = Reqs.requests)
 
@@ -32,14 +32,14 @@ def main():
     print(DG.getCost(cfss))
     print(DG.chromoAble(cfss))
 
-    print("\nGR Initial Result")
+    print("\nRAND Initial Result")
     print(gr)
-    print("GR Cost")
+    print("RAND Cost")
     print(DG.getCost(gr))
     print(DG.chromoAble(gr))
 
     cr = otoc.crossover(gr)
-    print("\nOTOC + GR")
+    print("\nOTOC + RAND")
     print(cr)
     print(DG.getCost(cr))
     print(DG.chromoAble(cr))

@@ -7,7 +7,7 @@ class DataGenerator:
         self.dists = dists
         self.requests = requests
         self.m = len(dists) # number of stations
-        self.n = len(requests)
+        self.n = len(requests) # number of requests
 
         self.L = self.makeL() # time ordered trip containing all requests
         self.CT = self.conflictTable() # == C , index = Rn -1 (start with 0)

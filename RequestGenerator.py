@@ -5,7 +5,7 @@ class RequestGenerator() :
     # requests : locations and time windows of requests [tuple of 4 positive integers(timeS, stationS, timeD, stationD)]
     # n : the number of requests
     # T : the maximum time of the simulation
-    def __init__(self, Map, typ = 'rand', n = 1000, T = 1440):
+    def __init__(self, Map, typ = 'AR', n = 1000, T = 1440):
         self.n = n
         self.T = T
 
@@ -13,13 +13,13 @@ class RequestGenerator() :
         self.dists = Map.dists
 
         self.requests = []
-        if(typ == 'rand') :
+        if(typ == 'AR') :
             self.requests = self.rand()
-        elif(typ == 'camel') :
+        elif(typ == 'CM') :
             self.request = self.camel()
-        elif(typ == 'exp') :
+        elif(typ == 'EX') :
             self.request = self.exp()
-        elif(typ == 'uni') :
+        elif(typ == 'UN') :
             self.requests = self.uni()
         else :
             print("ERROR : Requests Type Unavailable")
@@ -48,7 +48,8 @@ class RequestGenerator() :
             # To ensure two stations, times are different
         return lst
 
-    def camel(self, t1=100, t2=200):
+    def camel(self):
+        t1, t2 = self.T/3, 2*self.T/3
         lst = []
         return lst
 
