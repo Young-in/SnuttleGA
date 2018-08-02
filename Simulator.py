@@ -3,6 +3,7 @@ from RequestGenerator import RequestGenerator
 from DataGenerator import DataGenerator
 from Visualization import Visualization
 from Chromosome import Chromosome
+from GAOperator import GAOperator
 
 def main():
     MAP = MapGenerator(m=10)
@@ -26,57 +27,60 @@ def main():
     print(DG.getCost(otoc))
     print(DG.chromoAble(otoc))
 
-    print("\nCFSS Initial Result")
-    print(cfss)
-    print("CFSS Cost")
-    print(DG.getCost(cfss))
-    print(DG.chromoAble(cfss))
 
-    print("\nRAND Initial Result")
-    print(gr)
-    print("RAND Cost")
-    print(DG.getCost(gr))
-    print(DG.chromoAble(gr))
+    GAOP = GAOperator(DG, 'OTOC')
 
-    cr = otoc.crossover(gr)
-    print("\nOTOC + RAND")
-    print(cr)
-    print(DG.getCost(cr))
-    print(DG.chromoAble(cr))
+    # print("\nCFSS Initial Result")
+    # print(cfss)
+    # print("CFSS Cost")
+    # print(DG.getCost(cfss))
+    # print(DG.chromoAble(cfss))
 
-    print("\nmutation")
-    cr.mutation(1, 2)
-    print(cr)
-    print(DG.getCost(cr))
-    print(DG.chromoAble(cr))
+    # print("\nRAND Initial Result")
+    # print(gr)
+    # print("RAND Cost")
+    # print(DG.getCost(gr))
+    # print(DG.chromoAble(gr))
 
-    crr = cfss.crossOver(otoc)
-    print("\nCFSS + OTOC")
-    print(crr)
-    print(DG.getCost(crr))
-    print(DG.chromoAble(crr))
+    # cr = otoc.crossover(gr)
+    # print("\nOTOC + RAND")
+    # print(cr)
+    # print(DG.getCost(cr))
+    # print(DG.chromoAble(cr))
 
-    print("\nmutation")
-    crr.mutation(1, 2)
-    print(crr)
-    print(DG.getCost(crr))
-    print(DG.chromoAble(crr))
+    # print("\nmutation")
+    # cr.mutation(1, 2)
+    # print(cr)
+    # print(DG.getCost(cr))
+    # print(DG.chromoAble(cr))
 
-    cfsss = DG.generateCFSS()
-    crs = cfss.crossOver(cfsss)
-    print("\nCFSS + CFSS")
-    print(crs)
-    print(DG.getCost(crs))
-    print(DG.chromoAble(crs))
+    # crr = cfss.crossOver(otoc)
+    # print("\nCFSS + OTOC")
+    # print(crr)
+    # print(DG.getCost(crr))
+    # print(DG.chromoAble(crr))
 
-    print("\nmutation")
-    crs.mutation(1, 2)
-    print(crs)
-    print(DG.getCost(crs))
-    print(DG.chromoAble(crs))
+    # print("\nmutation")
+    # crr.mutation(1, 2)
+    # print(crr)
+    # print(DG.getCost(crr))
+    # print(DG.chromoAble(crr))
 
-    print("\nCFSS/OTOC")
-    print(DG.getCost(cfss)/DG.getCost(otoc))
+    # cfsss = DG.generateCFSS()
+    # crs = cfss.crossOver(cfsss)
+    # print("\nCFSS + CFSS")
+    # print(crs)
+    # print(DG.getCost(crs))
+    # print(DG.chromoAble(crs))
+
+    # print("\nmutation")
+    # crs.mutation(1, 2)
+    # print(crs)
+    # print(DG.getCost(crs))
+    # print(DG.chromoAble(crs))
+
+    # print("\nCFSS/OTOC")
+    # print(DG.getCost(cfss)/DG.getCost(otoc))
     pass
 
 
