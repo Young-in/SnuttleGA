@@ -28,9 +28,7 @@ class GAOperator:
             i2 = random.randrange(Nggene)
             genes.append(genes[i1].crossover(genes[i2]))
 
-        INF = 10000000000
-
-        genes.sort(key = lambda gene : (DG.getCost(gene) if DG.chromoAble(gene) else INF))
+        genes.sort(key = lambda gene : DG.getCost(gene))
         costs.append(DG.getCost(genes[0]))
 
         Nstep = 100 # the number of steps of evolution
@@ -46,12 +44,13 @@ class GAOperator:
                 genes.append(genes[i1].crossover(genes[i2]))
 
             for j in range(Nggene, Ngene):
-                if random.random() < 0.1:
+                if random.random() < 1:
                     i1 = random.randrange(DG.m) + 1
-                    i2 = random.randrange(DG.m) + 1
-                    genes[i].mutation(i1, i2)
+                    # i2 = random.randrange(DG.m) + 1
+                    i2 = DG.getSimilarRequest(i1 - 1) + 1
+                    genes[j].mutation(i1, i2)
             
-            genes.sort(key = lambda gene : (DG.getCost(gene) if DG.chromoAble(gene) else INF))
+            genes.sort(key = lambda gene : DG.getCost(gene))
             costs.append(DG.getCost(genes[0]))
         print(costs)
 

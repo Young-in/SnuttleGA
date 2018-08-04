@@ -49,7 +49,8 @@ class DataGenerator:
         tripSet = []
         for trip in trips :
             if not self.available(trip) :
-                print("unavailable trip")
+                # print("unavailable trip")
+                # print(chromo)
                 return False
             tripSet += trip
         for i in range(len(self.requests)) :
@@ -100,6 +101,9 @@ class DataGenerator:
         # need to change this function: trip has a request number not a station number
         COST_SHUTTLE = 1000
         cost = COST_SHUTTLE * len(chromo.trips)
+        INF = 10000000
+        if not self.chromoAble(chromo): return INF
+        
         for trip in chromo.trips :
             l = len(trip)
             for i in range(l-1) :
@@ -197,3 +201,15 @@ class DataGenerator:
             routeO = route[::2]
             routeE = route[1::2]
             return self.splitRoute(routeO) + self.splitRoute(routeE)
+
+    def getSimilarRequest(self, requestidx):
+        request = self.requests[requestidx]
+        retrequestidx = 0
+        retrequest = self.requests[0]
+        for idx, request2 in enumerate(self.requests):
+            dret = (retrequest[0] - request[0])**2 + (retrequest[2] - request[2])**2 + (self.dists[retrequest[1]][request[1]])**2 + (self.dists[retrequest[3]][request[3]])**2
+            dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
+            if ((dret == 0) or dret > dreq) and dreq != 0:
+                retrequest = request2
+                retrequestidx = idx
+        return retrequestidx

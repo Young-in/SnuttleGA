@@ -28,7 +28,7 @@ def main():
     print(DG.chromoAble(otoc))
 
 
-    GAOP = GAOperator(DG, 'OTOC')
+    GAOP = GAOperator(DG, 'CFSS')
 
     # print("\nCFSS Initial Result")
     # print(cfss)
@@ -67,7 +67,7 @@ def main():
     # print(DG.chromoAble(crr))
 
     # cfsss = DG.generateCFSS()
-    # crs = cfss.crossOver(cfsss)
+    # crs = cfss.crossover(cfsss)
     # print("\nCFSS + CFSS")
     # print(crs)
     # print(DG.getCost(crs))
