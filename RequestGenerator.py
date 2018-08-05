@@ -53,7 +53,7 @@ class RequestGenerator() :
         lst = []
         return lst
 
-    def exp(self, t1):
+    def exp(self, t1 = 1):
         lst = []
         return lst
 

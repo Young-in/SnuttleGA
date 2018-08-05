@@ -9,7 +9,7 @@ def main():
     MAP = MapGenerator(m=10)
     Reqs = RequestGenerator(Map = MAP, typ = 'AR', n = 50)
 
-    DG = DataGenerator(dists = MAP.dists, requests = Reqs.requests)
+    DG = DataGenerator(MG = MAP, RG = Reqs)
 
     print(MAP)
     print(Reqs)
@@ -29,6 +29,8 @@ def main():
 
 
     GAOP = GAOperator(DG, 'CFSS')
+
+    V.drawPoints(range(len(GAOP.costs)), GAOP.costs, 'costs for each generation')
 
     # print("\nCFSS Initial Result")
     # print(cfss)

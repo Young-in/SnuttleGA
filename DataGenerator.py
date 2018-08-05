@@ -3,14 +3,17 @@ from Pool import Pool
 import random
 
 class DataGenerator:
-    def __init__(self, dists, requests):
-        self.dists = dists
-        self.requests = requests
-        self.m = len(dists) # number of stations
-        self.n = len(requests) # number of requests
+    def __init__(self, MG, RG):
+        self.dists = MG.dists
+        self.depot = MG.depot
+        self.distdepot = MG.distdepot
+        self.requests = RG.requests
+        self.m = len(self.dists) # number of stations
+        self.n = len(self.requests) # number of requests
 
         self.L = self.makeL() # time ordered trip containing all requests
         self.CT = self.conflictTable() # == C , index = Rn -1 (start with 0)
+        self.S = self.makeSimilarRequest()
         pass
 
     def __str__(self):
@@ -43,6 +46,22 @@ class DataGenerator:
                     if self.available(trip) : ct[i].append(1)
                     else : ct[i].append(-1)
         return ct
+
+    def makeSimilarRequest(self):
+        ret = []
+        for requestidx in range(self.n):
+            rw = []
+            request = self.requests[requestidx]
+            su = 0.0
+            for request2 in self.requests:
+                dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
+                if dreq>0: su += 1/dreq
+            for request2 in self.requests:
+                dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
+                if dreq>0: rw.append(1/dreq/su)
+                else: rw.append(0.0)
+            ret.append(rw)
+        return ret
 
     def chromoAble(self, chromo):
         trips = chromo.trips
@@ -98,7 +117,6 @@ class DataGenerator:
         return True
 
     def getCost(self, chromo):
-        # need to change this function: trip has a request number not a station number
         COST_SHUTTLE = 1000
         cost = COST_SHUTTLE * len(chromo.trips)
         INF = 10000000
@@ -114,6 +132,7 @@ class DataGenerator:
                 else: staD = self.requests[-trip[i+1]-1][3]
 
                 cost += self.dists[staS][staD]
+            cost += self.distdepot[self.requests[trip[i]-1][1]] + self.distdepot[self.requests[-trip[-1]-1][3]]
         return cost
 
     def generateRAND(self):
@@ -203,13 +222,10 @@ class DataGenerator:
             return self.splitRoute(routeO) + self.splitRoute(routeE)
 
     def getSimilarRequest(self, requestidx):
-        request = self.requests[requestidx]
-        retrequestidx = 0
-        retrequest = self.requests[0]
-        for idx, request2 in enumerate(self.requests):
-            dret = (retrequest[0] - request[0])**2 + (retrequest[2] - request[2])**2 + (self.dists[retrequest[1]][request[1]])**2 + (self.dists[retrequest[3]][request[3]])**2
-            dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
-            if ((dret == 0) or dret > dreq) and dreq != 0:
-                retrequest = request2
-                retrequestidx = idx
-        return retrequestidx
+        t = random.random()
+        for i in range(self.n):
+            if t < self.S[requestidx][i]:
+                return i
+            else:
+                t -= self.S[requestidx][i]
+        return self.n-1

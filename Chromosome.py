@@ -6,6 +6,7 @@ class Chromosome:
     # trips : [trip1, trip2, trip3, .. tripm]
     def __init__(self, trips):
         self.trips = trips
+        self.trips.sort(key = lambda trip: len(trip))
 
     def __str__(self):
         ret = ""
@@ -30,7 +31,8 @@ class Chromosome:
         trips1 = copy.deepcopy(self.trips)
         trips2 = copy.deepcopy(chromo.trips)
 
-        rettrips = copy.deepcopy(trips1[:int((len(trips1)+1)/2)])
+
+        rettrips = copy.deepcopy(random.sample(trips1, (len(trips1)+1)//2))
         contained = set()
         
         for trip in rettrips:
