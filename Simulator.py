@@ -15,17 +15,18 @@ def main():
     print(Reqs)
     V = Visualization()
     V.drawPoints([coord[0] for coord in MAP.stations], [coord[1] for coord in MAP.stations], 'stations')
-    print("generating otoc...")
-    otoc = DG.generateOTOC()
-    print("generating cfss...")
-    cfss = DG.generateCFSS()
-    gr = DG.generateRAND()
 
-    print("\nOTOC Initial Result")
-    print(otoc)
-    print("OTOC Cost")
-    print(DG.getCost(otoc))
-    print(DG.chromoAble(otoc))
+    # print("generating otoc...")
+    # otoc = DG.generateOTOC()
+    # print("generating cfss...")
+    # cfss = DG.generateCFSS()
+    # gr = DG.generateRAND()
+
+    # print("\nOTOC Initial Result")
+    # print(otoc)
+    # print("OTOC Cost")
+    # print(DG.getCost(otoc))
+    # print(DG.chromoAble(otoc))
 
 
     GAOP = GAOperator(DG, 'CFSS')

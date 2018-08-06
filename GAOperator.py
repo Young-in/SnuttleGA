@@ -4,7 +4,7 @@ import Pool
 import random
 
 class GAOperator:
-    def __init__(self, DG: DataGenerator, initial: str):
+    def __init__(self, DG, initial):
         genes = []
         self.costs = []
 
@@ -34,7 +34,7 @@ class GAOperator:
         Nstep = 50 # the number of steps of evolution
 
         for i in range(Nstep):
-            print("{idx} step is running".format(idx = i))
+            print("{idx} step is running".format(idx = i+1))
             
             genes = genes[:Nggene]
 
@@ -57,7 +57,12 @@ class GAOperator:
             
             genes.sort(key = lambda gene : DG.getCost(gene))
             self.costs.append(DG.getCost(genes[0]))
-        print(self.costs)
+            if(self.costs[i] > self.costs[i+1]) :
+                print("{}% improved".format((1-(self.costs[i+1]/self.costs[i]))*100))
+
+        print("\nresults.....")
+        for i in range(Nstep+1):
+            print("%f %d th" %(self.costs[i], i+1))
 
     def __str__(self):
         pass

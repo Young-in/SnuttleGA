@@ -54,10 +54,12 @@ class DataGenerator:
             request = self.requests[requestidx]
             su = 0.0
             for request2 in self.requests:
-                dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
+                dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 \
+                       + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
                 if dreq>0: su += 1/dreq
             for request2 in self.requests:
-                dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
+                dreq = (request2[0] - request[0])**2 + (request2[2] - request[2])**2 \
+                       + (self.dists[request2[1]][request[1]])**2 + (self.dists[request2[3]][request[3]])**2
                 if dreq>0: rw.append(1/dreq/su)
                 else: rw.append(0.0)
             ret.append(rw)
@@ -132,7 +134,7 @@ class DataGenerator:
                 else: staD = self.requests[-trip[i+1]-1][3]
 
                 cost += self.dists[staS][staD]
-            cost += self.distdepot[self.requests[trip[i]-1][1]] + self.distdepot[self.requests[-trip[-1]-1][3]]
+            cost += self.distdepot[self.requests[trip[0]-1][1]] + self.distdepot[self.requests[-trip[-1]-1][3]]
         return cost
 
     def generateRAND(self):
