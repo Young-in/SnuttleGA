@@ -332,7 +332,7 @@ class DataGenerator:
         i = 0
         l = len(trips)
         while i < l :
-            ntrips = self.tearApart(trips[i], trips)
+            ntrips = copy.deepcopy(self.tearApart(trips[i], trips))
             if len(ntrips) == len(trips) :
                 i += 1
             else :
@@ -350,10 +350,11 @@ class DataGenerator:
                     tripi = ntrip[:] + [x, -x]
                     tripi.sort(key=lambda i: self.requests[abs(i) - 1][(abs(i) - i) // abs(i)])
                     if self.available(tripi) :
-                        ntrips[ntrips.index(ntrip)] = tripi
+                        ntrips[ntrips.index(ntrip)] = copy.deepcopy(tripi)
                         chec = chec + [x, -x]
                         break
-                if x not in chec : return copy.deepcopy(trips)
-        for x in trip :
-            if x not in chec : return copy.deepcopy(trips)
-        return copy.deepcopy(ntrips)
+            if x not in chec : return trips
+
+        for a in trip :
+            if a not in chec : return trips
+        return ntrips
