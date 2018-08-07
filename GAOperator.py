@@ -32,7 +32,7 @@ class GAOperator:
         genes.sort(key = lambda gene : DG.getCost(gene))
         self.costs.append(DG.getCost(genes[0]))
 
-        Nstep = 50 # the number of steps of evolution
+        Nstep = 25 # the number of steps of evolution
         INF = 10000000
 
         for i in range(Nstep):
@@ -59,6 +59,12 @@ class GAOperator:
                     genes[j] = self.optimize(genes[j], DG)
             
             genes.sort(key = lambda gene : DG.getCost(gene))
+
+            for j in range(Ngene-1, 3, -1):
+                if genes[j] == genes[j-4]:
+                    if len(genes) <= Nggene:
+                        break
+                    del genes[j]
             self.costs.append(DG.getCost(genes[0]))
             if(self.costs[i] > self.costs[i+1]) :
                 print("{}% improved".format((1-(self.costs[i+1]/self.costs[i]))*100))
@@ -66,6 +72,9 @@ class GAOperator:
         print("\nresults.....")
         for i in range(Nstep+1):
             print("%f %d th" %(self.costs[i], i+1))
+
+        # for i in range(Ngene):
+        #     print(genes[i])
 
     def __str__(self):
         pass

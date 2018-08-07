@@ -14,6 +14,17 @@ class Chromosome:
             ret += "Shuttle {i}: {t}\n".format(i = idx, t = trip)
         return ret
 
+    def __eq__(self, other):
+        if len(self.trips) != len(other.trips): return False
+        else:
+            for i in range(len(self.trips)):
+                if len(self.trips[i]) != len(other.trips[i]): return False
+                else:
+                    for j in range(len(self.trips[i])):
+                        if self.trips[i][j] != other.trips[i][j]: return False
+            return True
+        
+
     def mutation(self, x, y): # exchange the position of x and y
         for trip in self.trips:
             for i in range(len(trip)):
