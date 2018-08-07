@@ -1,6 +1,7 @@
 from DataGenerator import DataGenerator
 from Chromosome import Chromosome
 from Pool import Pool
+import math
 import random
 import copy
 
@@ -63,9 +64,13 @@ class GAOperator:
             self.costs.append(DG.getCost(genes[0]))
             if(self.costs[i] > self.costs[i+1]) :
                 print("{}% improved".format((1-(self.costs[i+1]/self.costs[i]))*100))
+                norm = (0.7078 * math.sqrt(2 * (DG.n + len(genes[0].trips))) + 0.551) * 100
+                if(self.costs[i+1] <= norm) :
+                    print("reach lower bound of tsp {}".format(norm))
+                    break
 
         print("\nresults.....")
-        for i in range(Nstep+1):
+        for i in range(len(self.costs)):
             print("%f %d th" %(self.costs[i], i+1))
         print("{}% improved".format((1-(self.costs[Nstep]/self.costs[0]))*100))
 
