@@ -78,7 +78,7 @@ class GAOperator:
         print("\nresults.....")
         for i in range(len(self.costs)):
             print("%f %d th" %(self.costs[i], i+1))
-        print("{}% improved".format((1-(self.costs[Nstep]/self.costs[0]))*100))
+        print("{}% improved".format((1-(self.costs[len(self.costs)-1]/self.costs[0]))*100))
 
         # for i in range(Ngene):
         #     print(genes[i])
