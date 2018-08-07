@@ -85,6 +85,7 @@ def main():
 
     # print("\nCFSS/OTOC")
     # print(DG.getCost(cfss)/DG.getCost(otoc))
+    del MAP, Reqs, DG, GAOP, V
     pass
 
 
