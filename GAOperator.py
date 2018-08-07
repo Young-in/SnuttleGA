@@ -57,6 +57,7 @@ class GAOperator:
             for j in range(Nggene, Ngene):
                 if DG.getCost(genes[j]) < INF:
                     genes[j] = self.optimize(genes[j], DG)
+                    genes[j] = self.opt(genes[j], DG)
             
             genes.sort(key = lambda gene : DG.getCost(gene))
 
@@ -72,6 +73,7 @@ class GAOperator:
         print("\nresults.....")
         for i in range(Nstep+1):
             print("%f %d th" %(self.costs[i], i+1))
+        print("{}% improved".format((1-(self.costs[Nstep]/self.costs[0]))*100))
 
         # for i in range(Ngene):
         #     print(genes[i])
@@ -88,4 +90,9 @@ class GAOperator:
                     trips[j] = k[:]
                     del trips[i]
                     break
+        return Chromosome(trips)
+
+    def opt(self, chromo, DG):
+        trips = copy.deepcopy(chromo.trips)
+        trips = DG.divideinto(trips)
         return Chromosome(trips)
