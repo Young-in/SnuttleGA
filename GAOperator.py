@@ -57,7 +57,7 @@ class GAOperator:
             for j in range(Nggene, Ngene):
                 if DG.getCost(genes[j]) < INF:
                     genes[j] = self.optimize(genes[j], DG)
-                    # genes[j] = self.opt(genes[j], DG)
+                    genes[j] = self.opt(genes[j], DG)
             
             genes.sort(key = lambda gene : DG.getCost(gene))
             self.costs.append(DG.getCost(genes[0]))

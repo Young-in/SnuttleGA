@@ -327,40 +327,32 @@ class DataGenerator:
             ret.reverse()
             return ret
         
-    def divideinto(self, atrips):
-        trips = copy.deepcopy(atrips)
-        ntrips = copy.deepcopy(trips)
+    def divideinto(self, tripsi):
+        trips = copy.deepcopy(tripsi)
         i = 0
-        while i < len(ntrips) :
-            checi = []
-            for x in ntrips[i] :
-                if x > 0 :
-                    j = 0
-                    checx = False
-                    while j < len(ntrips) :
-                        if i != j :
-                            tripj = ntrips[j][:] + [x, -x]
-                            tripj.sort(key=lambda k: self.requests[abs(k)-1][ (abs(k) - k)//abs(k) ])
-
-                            if self.available(tripj) :
-                                ntrips[j] = tripj
-                                checx = True
-                                break
-                        j += 1
-
-                    # success divide x to other
-                    if checx : checi + [x, -x]
-                    # fail divide x to other
-                    else : break
-
-            # fail divide any x in ntrips[i]
-            if len(checi) != len(ntrips[i]) :
-                ntrips = trips[:] # get back to previous condition
+        l = len(trips)
+        while i < l :
+            ntrips = self.tearApart(trips[i], trips)
+            if len(ntrips) == len(trips) :
                 i += 1
-
-            # success divide all x in ntrips[i]
             else :
-                ntrips.remove(ntrips[i])
-                trips = ntrips[:] # set backup
+                trips = copy.deepcopy(ntrips)
+                l = len(trips)
+        return trips
 
-        return ntrips
+    def tearApart(self, trip, trips):
+        ntrips = copy.deepcopy(trips)
+        ntrips.remove(trip)
+        chec = []
+        for x in trip :
+            if x > 0 :
+                for ntrip in ntrips :
+                    tripi = ntrip[:] + [x, -x]
+                    tripi.sort(key=lambda i: self.requests[abs(i) - 1][(abs(i) - i) // abs(i)])
+                    if self.available(tripi) :
+                        ntrips[ntrips.index(ntrip)] = tripi
+                        chec = chec + [x, -x]
+                        break
+        for x in trip :
+            if x not in chec : return copy.deepcopy(trips)
+        return copy.deepcopy(ntrips)
