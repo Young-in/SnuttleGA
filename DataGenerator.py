@@ -1,6 +1,7 @@
 from Chromosome import Chromosome
 from Pool import Pool
 import random
+import copy
 
 class DataGenerator:
     def __init__(self, MG, RG):
@@ -326,3 +327,40 @@ class DataGenerator:
             ret.reverse()
             return ret
         
+    def divideinto(self, atrips):
+        trips = copy.deepcopy(atrips)
+        ntrips = copy.deepcopy(trips)
+        i = 0
+        while i < len(ntrips) :
+            checi = []
+            for x in ntrips[i] :
+                if x > 0 :
+                    j = 0
+                    checx = False
+                    while j < len(ntrips) :
+                        if i != j :
+                            tripj = ntrips[j][:] + [x, -x]
+                            tripj.sort(key=lambda k: self.requests[abs(k)-1][ (abs(k) - k)//abs(k) ])
+
+                            if self.available(tripj) :
+                                ntrips[j] = tripj
+                                checx = True
+                                break
+                        j += 1
+
+                    # success divide x to other
+                    if checx : checi + [x, -x]
+                    # fail divide x to other
+                    else : break
+
+            # fail divide any x in ntrips[i]
+            if len(checi) != len(ntrips[i]) :
+                ntrips = trips[:] # get back to previous condition
+                i += 1
+
+            # success divide all x in ntrips[i]
+            else :
+                ntrips.remove(ntrips[i])
+                trips = ntrips[:] # set backup
+
+        return ntrips
