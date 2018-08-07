@@ -353,6 +353,7 @@ class DataGenerator:
                         ntrips[ntrips.index(ntrip)] = tripi
                         chec = chec + [x, -x]
                         break
+                if x not in chec : return copy.deepcopy(trips)
         for x in trip :
             if x not in chec : return copy.deepcopy(trips)
         return copy.deepcopy(ntrips)
