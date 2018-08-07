@@ -301,7 +301,7 @@ class DataGenerator:
                             mint2[i][j] = -1
         
         if mint1[-1][-1] == -1 and mint2[-1][-1] == -1:
-            print("Merge Trips Failed")
+            # print("Merge Trips Failed")
             return None
         else:
             ret = []
@@ -314,7 +314,7 @@ class DataGenerator:
             else: p = 2
 
             while i > 0 or j > 0:
-                print(p,i,j)
+                # print(p,i,j)
                 if p == 1:
                     ret.append(trip1[i-1])
                     p = p1[i][j]

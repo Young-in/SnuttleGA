@@ -1,7 +1,8 @@
 from DataGenerator import DataGenerator
-import Chromosome
-import Pool
+from Chromosome import Chromosome
+from Pool import Pool
 import random
+import copy
 
 class GAOperator:
     def __init__(self, DG, initial):
@@ -32,6 +33,7 @@ class GAOperator:
         self.costs.append(DG.getCost(genes[0]))
 
         Nstep = 50 # the number of steps of evolution
+        INF = 10000000
 
         for i in range(Nstep):
             print("{idx} step is running".format(idx = i+1))
@@ -53,7 +55,8 @@ class GAOperator:
                     genes[j].mutation(i1, i2)
 
             for j in range(Nggene, Ngene):
-                self.optimize(genes[j], DG)
+                if DG.getCost(genes[j]) < INF:
+                    genes[j] = self.optimize(genes[j], DG)
             
             genes.sort(key = lambda gene : DG.getCost(gene))
             self.costs.append(DG.getCost(genes[0]))
@@ -68,4 +71,12 @@ class GAOperator:
         pass
 
     def optimize(self, chromo, DG):
-        pass
+        trips = copy.deepcopy(chromo.trips)
+        for i in range(len(trips)-1, -1, -1):
+            for j in range(i):
+                k = DG.mergeTrips(trips[j], trips[i])
+                if k != None:
+                    trips[j] = k[:]
+                    del trips[i]
+                    break
+        return Chromosome(trips)
