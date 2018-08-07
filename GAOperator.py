@@ -63,6 +63,7 @@ class GAOperator:
         print("\nresults.....")
         for i in range(Nstep+1):
             print("%f %d th" %(self.costs[i], i+1))
+        print("{}% improved".format((1-(self.costs[Nstep]/self.costs[0]))*100))
 
     def __str__(self):
         pass
