@@ -27,6 +27,7 @@ class MapGenerator:
     def __str__(self):
         ret = ""
         ret += "The number of stations : {m}\n".format(m = self.m)
+        ret += "Depot: {c}\n".format(c = self.depot)
         for coord in self.stations: ret += "{c}\n".format(c = coord)
         ret += "------------------------------------\n"
         return ret

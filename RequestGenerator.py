@@ -43,7 +43,7 @@ class RequestGenerator() :
             d = self.dists[sta0][sta1] * (
                         1 + random.random())  # make time interval random value between distance and 2*distance
             t0 = random.randrange(math.floor(self.T - d))
-            t1 = t0 + d
+            t1 = math.floor(t0 + d)
             lst.append((t0, sta0, t1, sta1))
             # To ensure two stations, times are different
         return lst

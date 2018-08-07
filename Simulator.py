@@ -28,10 +28,11 @@ def main():
     # print(DG.getCost(otoc))
     # print(DG.chromoAble(otoc))
 
+    print(DG.mergeTrips([1,-1],[2,-2]))
 
-    GAOP = GAOperator(DG, 'CFSS')
+    # GAOP = GAOperator(DG, 'CFSS')
 
-    V.drawPoints(range(len(GAOP.costs)), GAOP.costs, 'costs for each generation')
+    # V.drawPoints(range(len(GAOP.costs)), GAOP.costs, 'costs for each generation')
 
     # print("\nCFSS Initial Result")
     # print(cfss)
