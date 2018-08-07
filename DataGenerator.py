@@ -231,3 +231,98 @@ class DataGenerator:
             else:
                 t -= self.S[requestidx][i]
         return self.n-1
+
+    def mergeTrips(self, trip1, trip2):
+        mint1 = [[-1] * (len(trip2) + 1) for i in range(len(trip1) + 1)]
+        mint2 = [[-1] * (len(trip2) + 1) for i in range(len(trip1) + 1)]
+        p1 = [[-1] * (len(trip2) + 1) for i in range(len(trip1) + 1)]
+        p2 = [[-1] * (len(trip2) + 1) for i in range(len(trip1) + 1)]
+
+        mint1[0][0] = 0
+        mint2[0][0] = 0
+        for i in range(len(trip1)+1):
+            for j in range(len(trip2)+1):
+                if i > 0:
+                    if trip1[i-1] > 0: sta1 = self.requests[trip1[i-1]-1][1]
+                    else: sta1 = self.requests[-trip1[i-1]-1][3]
+
+                if j > 0:
+                    if trip2[j-1] > 0: sta2 = self.requests[trip2[j-1]-1][1]
+                    else: sta2 = self.requests[-trip2[j-1]-1][3]
+
+                if i > 1:
+                    if trip1[i-2] > 0: sta1p = self.requests[trip1[i-2]-1][1]
+                    else: sta1p = self.requests[-trip1[i-2]-1][3]
+
+                if j > 1:
+                    if trip2[j-2] > 0: sta2p = self.requests[trip2[j-2]-1][1]
+                    else: sta2p = self.requests[-trip2[j-2]-1][3]
+
+                if i > 1:
+                    if mint1[i-1][j] != -1 and (mint1[i][j] == -1 or mint1[i][j] > mint1[i-1][j] + self.dists[sta1p][sta1]):
+                        mint1[i][j] = mint1[i-1][j] + self.dists[sta1p][sta1]
+                        p1[i][j] = 1
+                if i == 1:
+                    if mint1[i-1][j] != -1 and (mint1[i][j] == -1 or mint1[i][j] > mint1[i-1][j] + self.distdepot[sta1]):
+                        mint1[i][j] = mint1[i-1][j] + self.distdepot[sta1]
+                        p1[i][j] = 1
+                if i > 0 and j > 0:
+                    if mint2[i-1][j] != -1 and (mint1[i][j] == -1 or mint1[i][j] > mint2[i-1][j] + self.dists[sta2][sta1]):
+                        mint1[i][j] = mint2[i-1][j] + self.dists[sta2][sta1]
+                        p1[i][j] = 2
+
+                if i > 0:
+                    if trip1[i-1] > 0:
+                        if mint1[i][j] != -1 and mint1[i][j] < self.requests[trip1[i-1]-1][0]:
+                            mint1[i][j] = self.requests[trip1[i-1]-1][0]
+                    if trip1[i-1] < 0:
+                        if mint1[i][j] != -1 and mint1[i][j] > self.requests[-trip1[i-1]-1][2]:
+                            mint1[i][j] = -1
+                
+                if j > 0 and i > 0:
+                    if mint1[i][j-1] != -1 and (mint2[i][j] == -1 or mint2[i][j] > mint1[i][j-1] + self.dists[sta1][sta2]):
+                        mint2[i][j] = mint1[i][j-1] + self.dists[sta1][sta2]
+                        p2[i][j] = 1
+                if j > 1:
+                    if mint2[i][j-1] != -1 and (mint2[i][j] == -1 or mint2[i][j] > mint2[i][j-1] + self.dists[sta2p][sta2]):
+                        mint2[i][j] = mint2[i][j-1] + self.dists[sta2p][sta2]
+                        p2[i][j] = 2
+                if j == 1:
+                    if mint2[i][j-1] != -1 and (mint2[i][j] == -1 or mint2[i][j] > mint2[i][j-1] + self.distdepot[sta2]):
+                        mint2[i][j] = mint2[i][j-1] + self.distdepot[sta2]
+                        p2[i][j] = 2
+
+                if j > 0:
+                    if trip2[j-1] > 0:
+                        if mint2[i][j] != -1 and mint2[i][j] < self.requests[trip2[j-1]-1][0]:
+                            mint2[i][j] = self.requests[trip2[j-1]-1][0]
+                    if trip2[j-1] < 0:
+                        if mint2[i][j] != -1 and mint2[i][j] > self.requests[-trip2[j-1]-1][2]:
+                            mint2[i][j] = -1
+        
+        if mint1[-1][-1] == -1 and mint2[-1][-1] == -1:
+            # print("Merge Trips Failed")
+            return None
+        else:
+            ret = []
+            p = 0
+            i = len(trip1)
+            j = len(trip2)
+            if mint1[-1][-1] == -1: p = 2
+            elif mint2[-1][-1] == -1: p = 1
+            elif mint1[-1][-1] < mint2[-1][-1]: p = 1
+            else: p = 2
+
+            while i > 0 or j > 0:
+                # print(p,i,j)
+                if p == 1:
+                    ret.append(trip1[i-1])
+                    p = p1[i][j]
+                    i -= 1
+                else:
+                    ret.append(trip2[j-1])
+                    p = p2[i][j]
+                    j -= 1
+            ret.reverse()
+            return ret
+        

@@ -28,6 +28,7 @@ def main():
     # print(DG.getCost(otoc))
     # print(DG.chromoAble(otoc))
 
+    # print(DG.mergeTrips([1,-1],[2,-2]))
 
     GAOP = GAOperator(DG, 'CFSS')
 
