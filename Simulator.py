@@ -6,10 +6,20 @@ from Chromosome import Chromosome
 from GAOperator import GAOperator
 
 def main():
+    INF = 10000000
+
     MAP = MapGenerator(m=10)
     Reqs = RequestGenerator(Map = MAP, typ = 'AR', n = 50)
-
     DG = DataGenerator(MG = MAP, RG = Reqs)
+    cfss = DG.generateCFSS() # for available map test
+
+    while DG.getCost(cfss) == INF :
+        print('Map Regenerating..')
+        MAP = MapGenerator(m=10)
+        Reqs = RequestGenerator(Map=MAP, typ='AR', n=50)
+        DG = DataGenerator(MG=MAP, RG=Reqs)
+        cfss = DG.generateCFSS()
+    print('------------------------------------')
 
     print(MAP)
     print(Reqs)

@@ -72,7 +72,6 @@ class DataGenerator:
         for trip in trips :
             if not self.available(trip) :
                 # print("unavailable trip")
-                # print(chromo)
                 return False
             tripSet += trip
         for i in range(len(self.requests)) :
@@ -123,8 +122,9 @@ class DataGenerator:
         COST_SHUTTLE = 1000
         cost = COST_SHUTTLE * len(chromo.trips)
         INF = 10000000
-        if not self.chromoAble(chromo): return INF
-        
+        if not self.chromoAble(chromo):
+            return INF
+
         for trip in chromo.trips :
             l = len(trip)
             for i in range(l-1) :

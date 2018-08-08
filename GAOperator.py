@@ -15,13 +15,13 @@ class GAOperator:
 
 
         if initial == 'RAND':
-            for i in range(20):
+            for i in range(Nggene):
                 genes.append(DG.generateRAND())
         elif initial == 'OTOC':
-            for i in range(20):
+            for i in range(Nggene):
                 genes.append(DG.generateOTOC())
         elif initial == 'CFSS':
-            for i in range(20):
+            for i in range(Nggene):
                 genes.append(DG.generateCFSS())
 
         
@@ -38,7 +38,7 @@ class GAOperator:
 
         if self.costs[0] >= INF:
             print("initial is shit!")
- 
+
         else :
             for i in range(Nstep):
 
@@ -60,7 +60,8 @@ class GAOperator:
                         i2 = DG.getSimilarRequest(i1 - 1) + 1
                         genes[j].mutation(i1, i2)
 
-                for j in range(Nggene, Ngene):
+                # Optimization
+                for j in range(Ngene):
                     if DG.getCost(genes[j]) < INF:
                         genes[j] = self.optimize(genes[j], DG)
                         genes[j] = self.opt(genes[j], DG)
