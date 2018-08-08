@@ -36,44 +36,49 @@ class GAOperator:
         Nstep = 25 # the number of steps of evolution
         INF = 10000000
 
-        for i in range(Nstep):
-            print("{idx} step is running".format(idx = i+1))
-            
-            genes = genes[:Nggene]
+        if self.costs[0] >= INF:
+            print("initial is shit!")
+ 
+        else :
+            for i in range(Nstep):
 
-            # Crossover
-            for j in range(Nggene, Ngene):
-                i1 = random.randrange(Nggene)
-                i2 = random.randrange(Nggene)
-                genes.append(genes[i1].crossover(genes[i2]))
+                print("{idx} step is running".format(idx = i+1))
 
-            # Mutation
-            for j in range(Nggene, Ngene):
-                if random.random() < 0.1:
-                    i1 = random.randrange(DG.n) + 1
-                    # i2 = random.randrange(DG.m) + 1
-                    i2 = DG.getSimilarRequest(i1 - 1) + 1
-                    genes[j].mutation(i1, i2)
+                genes = genes[:Nggene]
 
-            for j in range(Nggene, Ngene):
-                if DG.getCost(genes[j]) < INF:
-                    genes[j] = self.optimize(genes[j], DG)
-                    genes[j] = self.opt(genes[j], DG)
-            
-            genes.sort(key = lambda gene : DG.getCost(gene))
+                # Crossover
+                for j in range(Nggene, Ngene):
+                    i1 = random.randrange(Nggene)
+                    i2 = random.randrange(Nggene)
+                    genes.append(genes[i1].crossover(genes[i2]))
 
-            for j in range(Ngene-1, 3, -1):
-                if genes[j] == genes[j-4]:
-                    if len(genes) <= Nggene:
+                # Mutation
+                for j in range(Nggene, Ngene):
+                    if random.random() < 0.1:
+                        i1 = random.randrange(DG.n) + 1
+                        # i2 = random.randrange(DG.m) + 1
+                        i2 = DG.getSimilarRequest(i1 - 1) + 1
+                        genes[j].mutation(i1, i2)
+
+                for j in range(Nggene, Ngene):
+                    if DG.getCost(genes[j]) < INF:
+                        genes[j] = self.optimize(genes[j], DG)
+                        genes[j] = self.opt(genes[j], DG)
+
+                genes.sort(key = lambda gene : DG.getCost(gene))
+
+                for j in range(Ngene-1, 3, -1):
+                    if genes[j] == genes[j-4]:
+                        if len(genes) <= Nggene:
+                            break
+                        del genes[j]
+                self.costs.append(DG.getCost(genes[0]))
+                if(self.costs[i] > self.costs[i+1]) :
+                    print("{}% improved".format((1-(self.costs[i+1]/self.costs[i]))*100))
+                    norm = (0.7078 * math.sqrt(2 * (DG.n + len(genes[0].trips))) + 0.551) * 100
+                    if(self.costs[i+1] <= norm) :
+                        print("reach lower bound of tsp {}".format(norm))
                         break
-                    del genes[j]
-            self.costs.append(DG.getCost(genes[0]))
-            if(self.costs[i] > self.costs[i+1]) :
-                print("{}% improved".format((1-(self.costs[i+1]/self.costs[i]))*100))
-                norm = (0.7078 * math.sqrt(2 * (DG.n + len(genes[0].trips))) + 0.551) * 100
-                if(self.costs[i+1] <= norm) :
-                    print("reach lower bound of tsp {}".format(norm))
-                    break
 
         print("\nresults.....")
         for i in range(len(self.costs)):
