@@ -369,18 +369,24 @@ class DataGenerator:
         while i1 == i2 : i2 = random.randrange(l)
         # select two trips randomly
         trip1 = trips[i1]
+        trip2 = trips[i2]
 
-        drawi = trips[i2][:]
+        drawi = trip2[:]
         random.shuffle(drawi)
         x = abs(drawi[0])
         # select one request from trip2 randomly
 
-        tripi = trips[i1][:] + [x, -x]
+        tripi = trip1[:] + [x, -x]
         tripi.sort(key=lambda i: self.requests[abs(i) - 1][(abs(i) - i) // abs(i)])
         # add selected request to trip1
 
         if self.available(tripi) :
             trips[i1] = tripi
+            if len(trip2) == 2 :
+                trips.remove(trip2)
+            else :
+                trip2.remove(x)
+                trip2.remove(-x)
             return trips
             # if it's available : return result of r1i1
         else :
