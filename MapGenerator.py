@@ -18,12 +18,14 @@ class MapGenerator:
 
         if typ == 'clust' :
             self.stations = []
-            for j in range(self.m):
-                sta = (random.random() * 100, random.random() * 100, j)
-                while sta in self.stations:
-                    sta = (random.random() * 100, random.random() * 100, j)
+            for j in range(self.m//2):
+                sta = (random.random() * 30, random.random() * 30, j)
                 self.stations.append(sta)
             # To ensure all stations are different
+
+            for j in range(self.m//2, self.m):
+                sta = (random.random() * 30 + 70, random.random() * 30 + 70, j)
+                self.stations.append(sta)
 
         self.depot = (random.random()*100, random.random()*100, -1)
         self.distdepot = []

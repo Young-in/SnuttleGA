@@ -8,23 +8,23 @@ from GAOperator import GAOperator
 def main():
     INF = 10000000
 
-    MAP = MapGenerator(m=10)
-    Reqs = RequestGenerator(Map = MAP, typ = 'AR', n = 50)
+    MAP = MapGenerator(m=10, typ = 'clust')
+    Reqs = RequestGenerator(Map = MAP, typ = 'CS', n = 50, T = 1000)
     DG = DataGenerator(MG = MAP, RG = Reqs)
     cfss = DG.generateCFSS() # for available map test
 
     while DG.getCost(cfss) == INF :
         print('Map Regenerating..')
-        MAP = MapGenerator(m=10)
-        Reqs = RequestGenerator(Map=MAP, typ='AR', n=50)
-        DG = DataGenerator(MG=MAP, RG=Reqs)
-        cfss = DG.generateCFSS()
+        MAP = MapGenerator(m=10, typ = 'clust')
+        Reqs = RequestGenerator(Map = MAP, typ = 'CS', n = 50, T = 1000)
+        DG = DataGenerator(MG = MAP, RG = Reqs)
+        cfss = DG.generateCFSS() # for available map test
     print('------------------------------------')
 
     print(MAP)
     print(Reqs)
     V = Visualization()
-    V.drawPoints([coord[0] for coord in MAP.stations], [coord[1] for coord in MAP.stations], 'stations')
+    V.drawPoints([coord[0] for coord in MAP.stations], [coord[1] for coord in MAP.stations], 'stations', 'ro')
 
     # print("generating otoc...")
     # otoc = DG.generateOTOC()
@@ -42,7 +42,40 @@ def main():
 
     GAOP = GAOperator(DG, 'CFSS')
 
-    V.drawPoints(range(len(GAOP.costs)), GAOP.costs, 'costs for each generation')
+    V.drawPoints(range(len(GAOP.costs)), GAOP.costs, 'costs for each generation', 'r-')
+
+    unavoid = 0
+
+    for request in Reqs.requests:
+        unavoid += MAP.dists[request[1]][request[3]]
+
+    print("unavoid: {d}".format(d = unavoid))
+
+    print("INIT: {c}".format(c = DG.getCost(GAOP.init) - unavoid))
+    print("FINAL: {c}".format(c = DG.getCost(GAOP.genes[0]) - unavoid))
+
+    print(GAOP.init);
+
+    for (i, trip) in enumerate(GAOP.init.trips):
+        points = []
+        for request in trip:
+            if request > 0:
+                points.append(MAP.stations[Reqs.requests[request-1][1]][0:2])
+            else:
+                points.append(MAP.stations[Reqs.requests[-request-1][3]][0:2])
+        V.drawPoints(list(map(lambda p: p[0], points)), list(map(lambda p: p[1], points)), 'routes/init/stations of shuttle {i}'.format(i = i), 'r-')
+
+    print(GAOP.genes[0]);
+
+    for (i, trip) in enumerate(GAOP.genes[0].trips):
+        points = []
+        for request in trip:
+            if request > 0:
+                points.append(MAP.stations[Reqs.requests[request-1][1]][0:2])
+            else:
+                points.append(MAP.stations[Reqs.requests[-request-1][3]][0:2])
+        V.drawPoints(list(map(lambda p: p[0], points)), list(map(lambda p: p[1], points)), 'routes/final/stations of shuttle {i}'.format(i = i), 'r-')
+
 
     # print("\nCFSS Initial Result")
     # print(cfss)
