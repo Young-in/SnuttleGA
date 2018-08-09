@@ -5,18 +5,27 @@ class MapGenerator:
     # m : the number of stations
     # stations : locations of stations [tuple of 2 real numbers and name (x, y, name)] == map info
     # dists : matrix which has the distance info
-    def __init__(self, m = 20):
+    def __init__(self, m = 20, typ = 'nomal'):
         self.m = m
-        self.stations = []
-        for j in range(self.m) :
-            sta = (random.random()*100, random.random()*100, j)
-            while sta in self.stations :
+        if typ == 'nomal' :
+            self.stations = []
+            for j in range(self.m) :
+                sta = (random.random()*100, random.random()*100, j)
+                while sta in self.stations :
+                    sta = (random.random() * 100, random.random() * 100, j)
+                self.stations.append(sta)
+            # To ensure all stations are different
+
+        if typ == 'clust' :
+            self.stations = []
+            for j in range(self.m):
                 sta = (random.random() * 100, random.random() * 100, j)
-            self.stations.append(sta)
-        # To ensure all stations are different
+                while sta in self.stations:
+                    sta = (random.random() * 100, random.random() * 100, j)
+                self.stations.append(sta)
+            # To ensure all stations are different
 
         self.depot = (random.random()*100, random.random()*100, -1)
-
         self.distdepot = []
         for j in range(self.m):
             self.distdepot.append(math.sqrt((self.stations[j][0]-self.depot[0])**2+(self.stations[j][1]-self.depot[1])**2))

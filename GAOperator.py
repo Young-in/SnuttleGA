@@ -66,6 +66,7 @@ class GAOperator:
                     if DG.getCost(genes[j]) < INF:
                         genes[j] = self.optimize(genes[j], DG)
                         genes[j] = self.opt(genes[j], DG)
+                        # genes[j] = self.rem1ins1(genes[j], DG)
 
                 genes.sort(key = lambda gene : DG.getCost(gene))
 
@@ -110,4 +111,10 @@ class GAOperator:
     def opt(self, chromo, DG):
         trips = copy.deepcopy(chromo.trips)
         trips = DG.divideinto(trips)
+        return Chromosome(trips)
+
+    def rem1ins1(self, chromo, DG, n):
+        trips = copy.deepcopy(chromo.trips)
+        for i in range(n) :
+            trips = DG.r1i1(trips, 1)
         return Chromosome(trips)
