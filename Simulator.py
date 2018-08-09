@@ -8,17 +8,17 @@ from GAOperator import GAOperator
 def main():
     INF = 10000000
 
-    MAP = MapGenerator(m=10)
-    Reqs = RequestGenerator(Map = MAP, typ = 'AR', n = 100, T = 1000)
+    MAP = MapGenerator(m=10, typ = 'clust')
+    Reqs = RequestGenerator(Map = MAP, typ = 'CS', n = 50, T = 1000)
     DG = DataGenerator(MG = MAP, RG = Reqs)
     cfss = DG.generateCFSS() # for available map test
 
     while DG.getCost(cfss) == INF :
         print('Map Regenerating..')
-        MAP = MapGenerator(m=10)
-        Reqs = RequestGenerator(Map=MAP, typ='AR', n=50)
-        DG = DataGenerator(MG=MAP, RG=Reqs)
-        cfss = DG.generateCFSS()
+        MAP = MapGenerator(m=10, typ = 'clust')
+        Reqs = RequestGenerator(Map = MAP, typ = 'CS', n = 50, T = 1000)
+        DG = DataGenerator(MG = MAP, RG = Reqs)
+        cfss = DG.generateCFSS() # for available map test
     print('------------------------------------')
 
     print(MAP)

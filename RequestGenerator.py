@@ -21,6 +21,8 @@ class RequestGenerator() :
             self.request = self.exp()
         elif(typ == 'UN') :
             self.requests = self.uni()
+        elif(typ == 'CS') :
+            self.requests = self.cluster()
         else :
             print("ERROR : Requests Type Unavailable")
         pass
@@ -59,4 +61,31 @@ class RequestGenerator() :
 
     def uni(self):
         lst = []
+        return lst
+
+    def cluster(self):
+        lst = []
+        for i in range(self.n//2):
+            # new version without using loop
+            sta0 = random.randrange(self.m//2)
+            sta1 = (sta0 + random.randrange(1, self.m//2)) % (self.m//2)
+            # change index 1~m to 0~m-1 for easy access of dist[][]
+
+            d = self.dists[sta0][sta1] * (
+                        1 + random.random())  # make time interval random value between distance and 2*distance
+            t0 = random.randrange(math.floor(self.T - d))
+            t1 = math.floor(t0 + d)
+            lst.append((t0, sta0, t1, sta1))
+            
+        for i in range(self.n//2, self.n):
+            # new version without using loop
+            sta0 = random.randrange(self.m//2) + (self.m//2)
+            sta1 = (sta0 + random.randrange(1, self.m//2)) % (self.m//2) + (self.m//2)
+            # change index 1~m to 0~m-1 for easy access of dist[][]
+
+            d = self.dists[sta0][sta1] * (
+                        1 + random.random())  # make time interval random value between distance and 2*distance
+            t0 = random.randrange(math.floor(self.T - d))
+            t1 = math.floor(t0 + d)
+            lst.append((t0, sta0, t1, sta1))
         return lst
