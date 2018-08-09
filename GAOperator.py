@@ -85,7 +85,7 @@ class GAOperator:
 
         print("\nresults.....")
         for i in range(len(self.costs)):
-            print("%f %d th" %(self.costs[i], i+1))
+            print("%f %d th" %(self.costs[i], i))
         print("{}% improved".format((1-(self.costs[len(self.costs)-1]/self.costs[0]))*100))
         print('\nInit: ')
         print(init)
