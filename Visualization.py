@@ -12,10 +12,10 @@ class Visualization:
     def __str__(self):
         pass
 
-    def drawPoints(self, xs, ys, filestr):
+    def drawPoints(self, xs, ys, filestr, opts):
         fig = plt.figure()
         plt.subplot(111)
-        plt.plot(xs, ys, 'ro', label = 'coords of stations')
+        plt.plot(xs, ys, opts, label = 'coords of stations')
         plt.title('Stations')
         plt.legend()
 
