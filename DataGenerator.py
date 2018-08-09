@@ -358,3 +358,37 @@ class DataGenerator:
         for a in trip :
             if a not in chec : return trips
         return ntrips
+
+
+    def r1i1(self, trips, n):
+        if n >= self.n : return trips
+        # it's fail to r1i1..
+
+        l = len(trips)
+        i1 = i2 = random.randrange(l)
+        while i1 == i2 : i2 = random.randrange(l)
+        # select two trips randomly
+        trip1 = trips[i1]
+        trip2 = trips[i2]
+
+        drawi = trip2[:]
+        random.shuffle(drawi)
+        x = abs(drawi[0])
+        # select one request from trip2 randomly
+
+        tripi = trip1[:] + [x, -x]
+        tripi.sort(key=lambda i: self.requests[abs(i) - 1][(abs(i) - i) // abs(i)])
+        # add selected request to trip1
+
+        if self.available(tripi) :
+            trips[i1] = tripi
+            if len(trip2) == 2 :
+                trips.remove(trip2)
+            else :
+                trip2.remove(x)
+                trip2.remove(-x)
+            return trips
+            # if it's available : return result of r1i1
+        else :
+            return self.r1i1(trips, n+1)
+            # if it's not available : try agin
