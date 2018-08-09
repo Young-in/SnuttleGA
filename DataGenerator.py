@@ -359,6 +359,26 @@ class DataGenerator:
             if a not in chec : return trips
         return ntrips
 
+    def tearApartt(self, trip, trips):
+        ntrips = copy.deepcopy(trips)
+        idx = trips.index(trip)
+
+        chec = []
+        for x in trip :
+            if x > 0 :
+                for i in range(idx+1, len(trips)) :
+                    ntrip = ntrips[i]
+                    tripi = ntrip[:] + [x, -x]
+                    tripi.sort(key=lambda i: self.requests[abs(i) - 1][(abs(i) - i) // abs(i)])
+                    if self.available(tripi) :
+                        ntrips[ntrips.index(ntrip)] = copy.deepcopy(tripi)
+                        chec = chec + [x, -x]
+                        break
+        for a in chec :
+            ntrips[idx].remove(a)
+        if len(ntrips[idx]) == 0 : ntrips.remove(ntrips[idx])
+        return ntrips
+
 
     def r1i1(self, trips, n):
         if n >= self.n : return trips

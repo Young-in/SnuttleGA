@@ -6,7 +6,7 @@ import random
 import copy
 
 class GAOperator:
-    def __init__(self, DG, initial):
+    def __init__(self, DG, initial, ns = 25):
         self.genes = []
         self.costs = []
 
@@ -34,7 +34,7 @@ class GAOperator:
         self.costs.append(DG.getCost(self.genes[0]))
         self.init = copy.deepcopy(self.genes[0])
 
-        Nstep = 25 # the number of steps of evolution
+        Nstep = ns # the number of steps of evolution
         INF = 10000000
 
         if self.costs[0] >= INF:
@@ -43,7 +43,7 @@ class GAOperator:
         else :
             for i in range(Nstep):
 
-                print("{idx} step is running".format(idx = i+1))
+                print("step {idx} is running".format(idx = i+1))
 
                 self.genes = self.genes[:Nggene]
 
@@ -66,7 +66,7 @@ class GAOperator:
                     if DG.getCost(self.genes[j]) < INF:
                         self.genes[j] = self.optimize(self.genes[j], DG)
                         self.genes[j] = self.opt(self.genes[j], DG)
-                        self.genes[j] = self.rem1ins1(self.genes[j], DG, 20)
+                        self.genes[j] = self.rem1ins1(self.genes[j], DG, DG.n)
 
                 self.genes.sort(key = lambda gene : DG.getCost(gene))
 
@@ -85,7 +85,11 @@ class GAOperator:
 
         print("\nresults.....")
         for i in range(len(self.costs)):
-            print("%f %d th" %(self.costs[i], i))
+            if i in [1, 2, 3] :
+                pri = ["st", "nd", "rd"]
+                print("{cost} {n} {w}" .format(cost = self.costs[i], n =  i, w = pri[i-1]))
+            else :
+                print("%f %d th" %(self.costs[i], i))
         print("{}% improved".format((1-(self.costs[len(self.costs)-1]/self.costs[0]))*100))
         print('\nInit: ')
         print(self.init)

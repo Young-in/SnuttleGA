@@ -7,17 +7,20 @@ from GAOperator import GAOperator
 
 def main():
     INF = 10000000
+    m, n, T = 20, 100, 1000
+    mtyp = 'clust'
+    rtyp = 'CS'
 
-    MAP = MapGenerator(m=10, typ = 'clust')
-    Reqs = RequestGenerator(Map = MAP, typ = 'CS', n = 50, T = 1000)
+    MAP = MapGenerator(m=m, typ = mtyp)
+    Reqs = RequestGenerator(Map = MAP, typ = rtyp, n = n, T = T)
     DG = DataGenerator(MG = MAP, RG = Reqs)
     cfss = DG.generateCFSS() # for available map test
 
     while DG.getCost(cfss) == INF :
         print('Map Regenerating..')
-        MAP = MapGenerator(m=10, typ = 'clust')
-        Reqs = RequestGenerator(Map = MAP, typ = 'CS', n = 50, T = 1000)
-        DG = DataGenerator(MG = MAP, RG = Reqs)
+        MAP = MapGenerator(m=m, typ=mtyp)
+        Reqs = RequestGenerator(Map=MAP, typ=rtyp, n=n, T=T)
+        DG = DataGenerator(MG=MAP, RG=Reqs)
         cfss = DG.generateCFSS() # for available map test
     print('------------------------------------')
 
@@ -26,21 +29,7 @@ def main():
     V = Visualization()
     V.drawPoints([coord[0] for coord in MAP.stations], [coord[1] for coord in MAP.stations], 'stations', 'ro')
 
-    # print("generating otoc...")
-    # otoc = DG.generateOTOC()
-    # print("generating cfss...")
-    # cfss = DG.generateCFSS()
-    # gr = DG.generateRAND()
-
-    # print("\nOTOC Initial Result")
-    # print(otoc)
-    # print("OTOC Cost")
-    # print(DG.getCost(otoc))
-    # print(DG.chromoAble(otoc))
-
-    # print(DG.mergeTrips([1,-1],[2,-2]))
-
-    GAOP = GAOperator(DG, 'CFSS')
+    GAOP = GAOperator(DG, 'CFSS', 5)
 
     V.drawPoints(range(len(GAOP.costs)), GAOP.costs, 'costs for each generation', 'r-')
 
@@ -75,61 +64,7 @@ def main():
             else:
                 points.append(MAP.stations[Reqs.requests[-request-1][3]][0:2])
         V.drawPoints(list(map(lambda p: p[0], points)), list(map(lambda p: p[1], points)), 'routes/final/stations of shuttle {i}'.format(i = i), 'r-')
-
-
-    # print("\nCFSS Initial Result")
-    # print(cfss)
-    # print("CFSS Cost")
-    # print(DG.getCost(cfss))
-    # print(DG.chromoAble(cfss))
-
-    # print("\nRAND Initial Result")
-    # print(gr)
-    # print("RAND Cost")
-    # print(DG.getCost(gr))
-    # print(DG.chromoAble(gr))
-
-    # cr = otoc.crossover(gr)
-    # print("\nOTOC + RAND")
-    # print(cr)
-    # print(DG.getCost(cr))
-    # print(DG.chromoAble(cr))
-
-    # print("\nmutation")
-    # cr.mutation(1, 2)
-    # print(cr)
-    # print(DG.getCost(cr))
-    # print(DG.chromoAble(cr))
-
-    # crr = cfss.crossOver(otoc)
-    # print("\nCFSS + OTOC")
-    # print(crr)
-    # print(DG.getCost(crr))
-    # print(DG.chromoAble(crr))
-
-    # print("\nmutation")
-    # crr.mutation(1, 2)
-    # print(crr)
-    # print(DG.getCost(crr))
-    # print(DG.chromoAble(crr))
-
-    # cfsss = DG.generateCFSS()
-    # crs = cfss.crossover(cfsss)
-    # print("\nCFSS + CFSS")
-    # print(crs)
-    # print(DG.getCost(crs))
-    # print(DG.chromoAble(crs))
-
-    # print("\nmutation")
-    # crs.mutation(1, 2)
-    # print(crs)
-    # print(DG.getCost(crs))
-    # print(DG.chromoAble(crs))
-
-    # print("\nCFSS/OTOC")
-    # print(DG.getCost(cfss)/DG.getCost(otoc))
     pass
-
 
 if __name__ == "__main__": # execute when python Simulator.py executed
     main()
