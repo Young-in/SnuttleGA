@@ -16,6 +16,7 @@ class Visualization:
         fig = plt.figure()
         plt.subplot(111)
         plt.plot(xs, ys, opts, label = 'coords of stations')
+        plt.axis([0,100,0,100])
         plt.title('Stations')
         plt.legend()
 

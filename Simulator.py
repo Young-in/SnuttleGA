@@ -63,7 +63,7 @@ def main():
                 points.append(MAP.stations[Reqs.requests[request-1][1]][0:2])
             else:
                 points.append(MAP.stations[Reqs.requests[-request-1][3]][0:2])
-        V.drawPoints(list(map(lambda p: p[0], points)), list(map(lambda p: p[1], points)), 'routes/init/stations of shuttle {i}'.format(i = i), 'r-')
+        V.drawPoints([p[0] for p in points], [p[1] for p in points], 'routes/init/stations of shuttle {i}'.format(i = i), 'r-')
 
     print(GAOP.genes[0]);
 
@@ -74,7 +74,7 @@ def main():
                 points.append(MAP.stations[Reqs.requests[request-1][1]][0:2])
             else:
                 points.append(MAP.stations[Reqs.requests[-request-1][3]][0:2])
-        V.drawPoints(list(map(lambda p: p[0], points)), list(map(lambda p: p[1], points)), 'routes/final/stations of shuttle {i}'.format(i = i), 'r-')
+        V.drawPoints([p[0] for p in points], [p[1] for p in points], 'routes/final/stations of shuttle {i}'.format(i = i), 'r-')
 
 
     # print("\nCFSS Initial Result")
