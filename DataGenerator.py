@@ -83,10 +83,10 @@ class DataGenerator:
                 print("there are no %d in trips" % -i)
                 return False
             if tripSet.count(i) != 1 :
-                print("there are more many %d in trips" % i)
+                print("there are more %d s in trips" % i)
                 return False
             if tripSet.count(-i) != 1 :
-                print("there are more many %d in trips" % -i)
+                print("there are more %d s in trips" % -i)
                 return False
         return True
 
@@ -374,9 +374,11 @@ class DataGenerator:
                         ntrips[ntrips.index(ntrip)] = copy.deepcopy(tripi)
                         chec = chec + [x, -x]
                         break
-        for a in chec :
-            ntrips[idx].remove(a)
-        if len(ntrips[idx]) == 0 : ntrips.remove(ntrips[idx])
+
+        if len(ntrips[idx]) == len(chec) : ntrips.remove(ntrips[idx])
+        else :
+            for a in chec:
+                ntrips[idx].remove(a)
         return ntrips
 
 

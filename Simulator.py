@@ -7,7 +7,7 @@ from GAOperator import GAOperator
 
 def main():
     INF = 10000000
-    m, n, T = 20, 100, 1000
+    m, n, T = 20, 70, 1000
     mtyp = 'clust'
     rtyp = 'CS'
 
@@ -42,6 +42,7 @@ def main():
 
     print("INIT: {c}".format(c = DG.getCost(GAOP.init) - unavoid))
     print("FINAL: {c}".format(c = DG.getCost(GAOP.genes[0]) - unavoid))
+    print("{}% improved".format(100*(1-((DG.getCost(GAOP.genes[0]) - unavoid))/(DG.getCost(GAOP.init) - unavoid))))
 
     print(GAOP.init);
 
