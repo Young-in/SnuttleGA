@@ -66,7 +66,7 @@ class GAOperator:
                     if DG.getCost(self.genes[j]) < INF:
                         self.genes[j] = self.optimize(self.genes[j], DG)
                         self.genes[j] = self.opt(self.genes[j], DG)
-                        self.genes[j] = self.rem1ins1(self.genes[j], DG, DG.n)
+                        self.genes[j] = self.rem1ins1(self.genes[j], DG, DG.n//2)
 
                 self.genes.sort(key = lambda gene : DG.getCost(gene))
 
