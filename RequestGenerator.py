@@ -9,6 +9,7 @@ class RequestGenerator() :
         self.n = n
         self.T = T
 
+        self.Map = Map
         self.m = Map.m
         self.dists = Map.dists
 
@@ -23,6 +24,8 @@ class RequestGenerator() :
             self.requests = self.uni()
         elif(typ == 'CS') :
             self.requests = self.cluster()
+        elif(typ == 'CS2'):
+            self.requests = self.cluster2(0.8)
         else :
             print("ERROR : Requests Type Unavailable")
         pass
@@ -71,8 +74,8 @@ class RequestGenerator() :
             sta1 = (sta0 + random.randrange(1, self.m//2)) % (self.m//2)
             # change index 1~m to 0~m-1 for easy access of dist[][]
 
-            d = self.dists[sta0][sta1] * (
-                        1 + random.random())  # make time interval random value between distance and 2*distance
+            d = self.dists[sta0][sta1] * (1 + random.random())
+            # make time interval random value between distance and 2*distance
             t0 = random.randrange(math.floor(self.T - d))
             t1 = math.floor(t0 + d)
             lst.append((t0, sta0, t1, sta1))
@@ -83,9 +86,29 @@ class RequestGenerator() :
             sta1 = (sta0 + random.randrange(1, self.m//2)) % (self.m//2) + (self.m//2)
             # change index 1~m to 0~m-1 for easy access of dist[][]
 
-            d = self.dists[sta0][sta1] * (
-                        1 + random.random())  # make time interval random value between distance and 2*distance
+            d = self.dists[sta0][sta1] * (1 + random.random())
+            # make time interval random value between distance and 2*distance
             t0 = random.randrange(math.floor(self.T - d))
             t1 = math.floor(t0 + d)
             lst.append((t0, sta0, t1, sta1))
         return lst
+
+    def cluster2(self, p):
+        np = int(self.n*p)
+        RG = RequestGenerator(self.Map, 'CS', np, self.T)
+        requests1 = RG.requests
+        requests2 = []
+
+        for i in range(np, self.n) :
+            sta0 = random.randrange(self.m // 2) + (self.m // 2)*(i%2)
+            sta1 = (sta0 + random.randrange(1, self.m // 2)) % (self.m // 2) + (self.m // 2)*((i+1)%2)
+            # change index 1~m to 0~m-1 for easy access of dist[][]
+
+            d = self.dists[sta0][sta1] * (1 + random.random())
+            # make time interval random value between distance and 2*distance
+            t0 = random.randrange(math.floor(self.T - d))
+            t1 = math.floor(t0 + d)
+            requests2.append((t0, sta0, t1, sta1))
+
+        return requests1+requests2
+

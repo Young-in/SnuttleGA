@@ -9,7 +9,7 @@ def main():
     INF = 10000000
     m, n, T = 20, 70, 1000
     mtyp = 'clust'
-    rtyp = 'CS'
+    rtyp = 'CS2'
 
     MAP = MapGenerator(m=m, typ = mtyp)
     Reqs = RequestGenerator(Map = MAP, typ = rtyp, n = n, T = T)
