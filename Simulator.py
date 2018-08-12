@@ -11,7 +11,7 @@ def main():
     mtyp = 'clust'
     rtyp = 'CS2'
 
-    ns = 0
+    ns = 5
 
     MAP = MapGenerator(m=m, typ = mtyp)
     Reqs = RequestGenerator(Map = MAP, typ = rtyp, n = n, T = T)
