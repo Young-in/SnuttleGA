@@ -3,6 +3,7 @@ import Pool
 import matplotlib
 matplotlib.use('Agg') # because there is no display for this program
 import matplotlib.pyplot as plt
+import random
 import numpy as np
 
 class Visualization:
@@ -22,8 +23,11 @@ class Visualization:
 
         fig.savefig(filestr+'.png')
 
-    def drawTrips(self, MAP, Reqs, chromo):
-        V = Visualization()
+    def drawTrips(self, MAP, Reqs, chromo, name):
+        fig = plt.figure()
+        plt.subplot(111)
+        shutn = len(chromo.trips)
+
         for (i, trip) in enumerate(chromo.trips):
             points = []
             for request in trip:
@@ -31,6 +35,14 @@ class Visualization:
                     points.append(MAP.stations[Reqs.requests[request - 1][1]][0:2])
                 else:
                     points.append(MAP.stations[Reqs.requests[-request - 1][3]][0:2])
-            V.drawPoints([p[0] for p in points], [p[1] for p in points],
-                         'routes/final/stations of shuttle {i}'.format(i=i), 'r-')
+
+            C = random.uniform((1.0*i)/shutn, (i+1.0)/shutn)
+            xs = [p[0] for p in points]
+            ys = [p[1] for p in points]
+            plt.plot(xs, ys, color = plt.cm.Reds(C), label = (i+1))
+            plt.axis([0, 100, 0, 100])
+
+        plt.title('Trips')
+        plt.legend()
+        fig.savefig(name+' Whole Trips.png')
         pass

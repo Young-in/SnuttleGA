@@ -11,6 +11,8 @@ def main():
     mtyp = 'clust'
     rtyp = 'CS2'
 
+    ns = 0
+
     MAP = MapGenerator(m=m, typ = mtyp)
     Reqs = RequestGenerator(Map = MAP, typ = rtyp, n = n, T = T)
     DG = DataGenerator(MG = MAP, RG = Reqs)
@@ -29,7 +31,7 @@ def main():
     V = Visualization()
     V.drawPoints([coord[0] for coord in MAP.stations], [coord[1] for coord in MAP.stations], 'stations', 'ro')
 
-    GAOP = GAOperator(DG, 'CFSS', 5)
+    GAOP = GAOperator(DG, 'CFSS', ns)
 
     V.drawPoints(range(len(GAOP.costs)), GAOP.costs, 'costs for each generation', 'r-')
 
@@ -66,6 +68,9 @@ def main():
                 points.append(MAP.stations[Reqs.requests[-request-1][3]][0:2])
         V.drawPoints([p[0] for p in points], [p[1] for p in points], 'routes/final/stations of shuttle {i}'.format(i = i), 'r-')
     pass
+
+    V.drawTrips(MAP, Reqs, GAOP.init, 'init')
+    V.drawTrips(MAP, Reqs, GAOP.genes[0], 'final')
 
 if __name__ == "__main__": # execute when python Simulator.py executed
     main()
