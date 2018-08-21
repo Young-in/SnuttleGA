@@ -7,7 +7,7 @@ from GAOperator import GAOperator
 
 def main():
     INF = 10000000
-    m, n, T = 20, 70, 1000
+    m, n, T = 20, 70, 300
     mtyp = 'clust'
     rtyp = 'CS2'
 

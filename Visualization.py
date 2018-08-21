@@ -22,6 +22,7 @@ class Visualization:
         plt.legend()
 
         fig.savefig(filestr+'.png')
+        plt.close(fig)
 
     def drawTrips(self, MAP, Reqs, chromo, name):
         fig = plt.figure()
