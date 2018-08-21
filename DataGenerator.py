@@ -11,6 +11,7 @@ class DataGenerator:
         self.requests = RG.requests
         self.m = len(self.dists) # number of stations
         self.n = len(self.requests) # number of requests
+        self.T = RG.T
 
         self.L = self.makeL() # time ordered trip containing all requests
         self.CT = self.conflictTable() # == C , index = Rn -1 (start with 0)
@@ -386,10 +387,9 @@ class DataGenerator:
         if n >= self.n : return trips
         # it's fail to r1i1..
 
-        l = len(trips)
+        l = len(trips) # select two trips randomly
         i1 = i2 = random.randrange(l)
         while i1 == i2 : i2 = random.randrange(l)
-        # select two trips randomly
         trip1 = trips[i1]
         trip2 = trips[i2]
 
@@ -398,8 +398,26 @@ class DataGenerator:
         x = abs(drawi[0])
         # select one request from trip2 randomly
 
-        tripi = trip1[:] + [x, -x]
-        tripi.sort(key=lambda i: self.requests[abs(i) - 1][(abs(i) - i) // abs(i)])
+        tripi = trip1[:]
+        tx = self.requests[x-1][0]
+        tnx = self.requests[x-1][2]
+
+        idx = 0 # insert 'x' to trip1
+        while idx < len(tripi) :
+            r = tripi[idx]
+            t = self.requests[abs(r) - 1][(abs(r) - r) // abs(r)]
+            if t > tx :
+                tripi = tripi[:idx] +[x]+ tripi[idx:]
+                break
+            idx += 1
+        idx = 0 # insert '-x' to trip1
+        while idx < len(tripi):
+            r = tripi[idx]
+            t = self.requests[abs(r) - 1][(abs(r) - r) // abs(r)]
+            if tnx > t :
+                tripi = tripi[:idx] +[-x]+ tripi[idx:]
+                break
+            idx += 1
         # add selected request to trip1
 
         if self.available(tripi) :
@@ -409,8 +427,6 @@ class DataGenerator:
             else :
                 trip2.remove(x)
                 trip2.remove(-x)
-            return trips
-            # if it's available : return result of r1i1
-        else :
+            return trips # if it's available : return result of r1i1
+        else : # if it's not available : try agin
             return self.r1i1(trips, n+1)
-            # if it's not available : try agin

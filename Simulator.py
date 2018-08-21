@@ -11,7 +11,7 @@ def main():
     mtyp = 'clust'
     rtyp = 'CS2'
 
-    ns = 5
+    ns = 10
 
     MAP = MapGenerator(m=m, typ = mtyp)
     Reqs = RequestGenerator(Map = MAP, typ = rtyp, n = n, T = T)
@@ -19,7 +19,7 @@ def main():
     cfss = DG.generateCFSS() # for available map test
 
     while DG.getCost(cfss) == INF :
-        print('Map Regenerating..')
+        print('Regenerating..')
         MAP = MapGenerator(m=m, typ=mtyp)
         Reqs = RequestGenerator(Map=MAP, typ=rtyp, n=n, T=T)
         DG = DataGenerator(MG=MAP, RG=Reqs)

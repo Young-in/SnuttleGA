@@ -44,6 +44,6 @@ class Visualization:
             plt.axis([0, 100, 0, 100])
 
         plt.title('Trips')
-        plt.legend()
+        plt.legend(loc = 'center left', bbox_to_anchor = (0.98, 0.25))
         fig.savefig(name+' Whole Trips.png')
         pass
